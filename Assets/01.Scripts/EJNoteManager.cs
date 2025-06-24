@@ -238,7 +238,7 @@ public class EJNoteManager : MonoBehaviour
                             {
                                 print("*****���� autoDestroyAction�� ��� ����Ǵ� Note�� isLongStart����" + noteInstance.noteInfo.isLongNoteStart);
                                 //showScoreText(4);
-                                EJScoreManager.instance.StartShowScoreText("Miss",railIdx,0);
+                                ScoreManager.instance.StartShowScoreText("Miss",railIdx,0);
                                 CamShake.instance.StartShake(0.2f, 0.5f, 1);
                             }
                         }
@@ -757,29 +757,29 @@ public class EJNoteManager : MonoBehaviour
         {
             //Bad
             //showScoreText(3);
-            EJScoreManager.instance.StartShowScoreText("Bad",n,badScore);
-            EJScoreManager.instance.SCORE += badScore;
+            ScoreManager.instance.StartShowScoreText("Bad",n,badScore);
+            ScoreManager.instance.SCORE += badScore;
         }
         else if (distAbs > greatZone)
         {
             //Good
             //showScoreText(2);
-            EJScoreManager.instance.StartShowScoreText("Good",n,goodScore);
-            EJScoreManager.instance.SCORE += goodScore;
+            ScoreManager.instance.StartShowScoreText("Good",n,goodScore);
+            ScoreManager.instance.SCORE += goodScore;
         }
         else if (distAbs > excellentZone)
         {
             //Great
             //showScoreText(1);
-            EJScoreManager.instance.StartShowScoreText("Great",n,greatScore);
-            EJScoreManager.instance.SCORE += greatScore;
+            ScoreManager.instance.StartShowScoreText("Great",n,greatScore);
+            ScoreManager.instance.SCORE += greatScore;
         }
         else
         {
             //Excellent
             //showScoreText(0);
-            EJScoreManager.instance.StartShowScoreText("Excellent", n, excellentScore);
-            EJScoreManager.instance.SCORE += excellentScore;
+            ScoreManager.instance.StartShowScoreText("Excellent", n, excellentScore);
+            ScoreManager.instance.SCORE += excellentScore;
         }
 
         //Handheld.Vibrate();
@@ -828,7 +828,7 @@ public class EJNoteManager : MonoBehaviour
         {
             //success
             //showScoreText(0);
-            EJScoreManager.instance.StartShowScoreText("Excellent", n, excellentScore);
+            ScoreManager.instance.StartShowScoreText("Excellent", n, excellentScore);
             //noteUnable(n);
             //misscheck�� �ϸ� �ȵȴ�!!!
 
@@ -894,14 +894,14 @@ public class EJNoteManager : MonoBehaviour
                 print("���� �巡�� ��Ʈ �����߾��!");
                 PressDestroy(touchStartedIdx);
                 //showScoreText(0);
-                EJScoreManager.instance.StartShowScoreText("Excellent",n,excellentScore);
+                ScoreManager.instance.StartShowScoreText("Excellent",n,excellentScore);
             }
             else if (touchReleasedIdx == gameNoteInstance_Rails[touchStartedIdx][0].noteInfo.DRAG_release_idx && draggingState == DraggingState.Dragging_RIGHT && gameNoteInstance_Rails[touchStartedIdx][0].noteInfo.type == (int)GameNoteType.DRAG_RIGHT)
             {
                 print("������ �巡�� ��Ʈ �����߾��!");
                 PressDestroy(touchStartedIdx);
                 //showScoreText(0);
-                EJScoreManager.instance.StartShowScoreText("Excellent", n, excellentScore);
+                ScoreManager.instance.StartShowScoreText("Excellent", n, excellentScore);
             }
             else
             {
@@ -926,7 +926,7 @@ public class EJNoteManager : MonoBehaviour
 
         //if (distAbs < badZone)
         {
-            EJScoreManager.instance.SCORE += pressScore * Time.deltaTime ;
+            ScoreManager.instance.SCORE += pressScore * Time.deltaTime ;
 
         }
         //else
@@ -938,7 +938,7 @@ public class EJNoteManager : MonoBehaviour
     public void MissCheck()
     {
         //showScoreText(4);
-        EJScoreManager.instance.StartShowScoreText("Miss",0,0);
+        ScoreManager.instance.StartShowScoreText("Miss",0,0);
 
         //�ȵǴ� ����..? ���������̶�?
         CamShake.instance.StartShake(0.2f, 0.5f, 1);      

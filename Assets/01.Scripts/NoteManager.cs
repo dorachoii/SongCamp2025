@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 생성과 파괴 담당
 public class NoteManager : MonoBehaviour
 {
+    public static NoteManager Instance { get; private set; }
+
     const int railCount = 6;
     float currTime;
     int bpm = 60;
@@ -13,16 +16,42 @@ public class NoteManager : MonoBehaviour
 
     private List<NoteData> noteSpawnQueue = new List<NoteData>();
     private List<NoteData>[] noteSpawnQueue_perRail = new List<NoteData>[railCount];
-    List<NoteInstance>[] spawnedNotes_perRail = new List<NoteInstance>[railCount];
+    public List<NoteInstance>[] spawnedNotes_perRail = new List<NoteInstance>[railCount];
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        NoteJudge.OnNoteJudged += HandleJudgedNote;
+    }
+
+    void OnDisable()
+    {
+        NoteJudge.OnNoteJudged -= HandleJudgedNote;
+    }
+
+    void HandleJudgedNote(JudgeResult result, int railIndex)
+    {
+        NoteInstance note = spawnedNotes_perRail[railIndex][0];
+        spawnedNotes_perRail[railIndex].Remove(note);
+        Destroy(note.gameObject);
+    }
+
+    void Awake()
+    {
+        if (Instance == null) { Instance = this; }
+        else { Destroy(gameObject); }
+
         for (int i = 0; i < spawnedNotes_perRail.Length; i++)
         {
             spawnedNotes_perRail[i] = new List<NoteInstance>();
         }
+        for (int i = 0; i < noteSpawnQueue_perRail.Length; i++)
+        {
+            noteSpawnQueue_perRail[i] = new List<NoteData>();
+        }
+    }
 
+    void Start()
+    {
         TestSHORT();
     }
 
@@ -89,11 +118,6 @@ public class NoteManager : MonoBehaviour
         note.type = (int)GameNoteType.SHORT;
         note.time = 6 * bpm;
         noteSpawnQueue.Add(note);
-        
-        for (int i = 0; i < noteSpawnQueue_perRail.Length; i++)
-        {
-            noteSpawnQueue_perRail[i] = new List<NoteData>();
-        }
 
         for (int i = 0; i < noteSpawnQueue.Count; i++)
         {

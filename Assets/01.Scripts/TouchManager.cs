@@ -18,7 +18,8 @@ public class TouchManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        // TODO: 터치 보정
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
@@ -28,28 +29,22 @@ public class TouchManager : MonoBehaviour
                 GameObject hitObj = hitInfo.collider.gameObject;
                 string name = hitObj.name;
 
-                print($"clicked object: {name}");
-
                 if (name.StartsWith("Touch_Box"))
                 {
                     string numStr = name.Substring("Touch_Box".Length);
                     if (int.TryParse(numStr, out int index))
                     {
-                        
                         index -= 1;
-                        print($"clicked index: {index}");
-
-                            rails[index].GetComponent<MeshRenderer>().material = activeMats[index];
-
+                        rails[index].GetComponent<MeshRenderer>().material = activeMats[index];
+                        noteJudge.JudgeShortNote(index);
                     }
                 }
-            
+
             }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            // 손 뗐을 때 전체 초기화
             for (int i = 0; i < rails.Length; i++)
             {
                 rails[i].GetComponent<MeshRenderer>().material = defaultMats[i];
