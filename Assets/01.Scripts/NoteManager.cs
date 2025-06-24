@@ -11,23 +11,19 @@ public class NoteManager : MonoBehaviour
     public GameObject[] notePrefabs;
     public List<Transform> spawnRails;
 
-    // 대기열 느낌으로 이릅 바꾸기
-    private List<GameNoteInfo> noteSpawnQueue = new List<GameNoteInfo>();
-    // 레일별 대기열으로 이름 바꾸기
-    private List<GameNoteInfo>[] noteSpawnQueue_perRail = new List<GameNoteInfo>[railCount];
-
-    // 레입별 게임씬 인스턴스 
-    List<EJGameNote>[] spawnedNotes_perRail = new List<EJGameNote>[railCount];
+    private List<NoteData> noteSpawnQueue = new List<NoteData>();
+    private List<NoteData>[] noteSpawnQueue_perRail = new List<NoteData>[railCount];
+    List<NoteInstance>[] spawnedNotes_perRail = new List<NoteInstance>[railCount];
 
     // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < spawnedNotes_perRail.Length; i++)
         {
-            spawnedNotes_perRail[i] = new List<EJGameNote>();
+            spawnedNotes_perRail[i] = new List<NoteInstance>();
         }
 
-        TestShortNotes();
+        TestSHORT();
     }
 
 
@@ -44,61 +40,59 @@ public class NoteManager : MonoBehaviour
                     GameObject prefab = notePrefabs[noteSpawnQueue_perRail[i][0].type];
                     GameObject note = Instantiate(prefab, spawnRails[i].position + Vector3.forward * (-0.5f), prefab.transform.rotation);
 
-                    //note.transform.forward = spawnPos[0].transform.forward;
                     note.transform.SetParent(spawnRails[i].transform);
 
-                    EJGameNote noteInstance = note.GetComponent<EJGameNote>();
+                    NoteInstance noteInstance = note.GetComponent<NoteInstance>();
                     noteInstantiate(i, noteInstance);
                 }
             }
         }
     }
 
-    void noteInstantiate(int n, EJGameNote noteInstance)
+    void noteInstantiate(int n, NoteInstance noteInstance)
     {
         noteInstance.noteInfo = noteSpawnQueue_perRail[n][0];
         spawnedNotes_perRail[n].Add(noteInstance);
         noteSpawnQueue_perRail[n].RemoveAt(0);
     }
 
-    void TestShortNotes()
+    void TestSHORT()
     {
-        // struct로 정의
-        GameNoteInfo info = new GameNoteInfo();
+        NoteData note = new NoteData();
 
-        info.railIdx = 0;
-        info.type = (int)GameNoteType.SHORT;
-        info.time = 1 * bpm;
-        noteSpawnQueue.Add(info);
+        note.railIdx = 0;
+        note.type = (int)GameNoteType.SHORT;
+        note.time = 1 * bpm;
+        noteSpawnQueue.Add(note);
 
-        info.railIdx = 1;
-        info.type = (int)GameNoteType.SHORT;
-        info.time = 2 * bpm;
-        noteSpawnQueue.Add(info);
+        note.railIdx = 1;
+        note.type = (int)GameNoteType.SHORT;
+        note.time = 2 * bpm;
+        noteSpawnQueue.Add(note);
 
-        info.railIdx = 2;
-        info.type = (int)GameNoteType.SHORT;
-        info.time = 3 * bpm;
-        noteSpawnQueue.Add(info);
+        note.railIdx = 2;
+        note.type = (int)GameNoteType.SHORT;
+        note.time = 3 * bpm;
+        noteSpawnQueue.Add(note);
 
-        info.railIdx = 3;
-        info.type = (int)GameNoteType.SHORT;
-        info.time = 4 * bpm;
-        noteSpawnQueue.Add(info);
+        note.railIdx = 3;
+        note.type = (int)GameNoteType.SHORT;
+        note.time = 4 * bpm;
+        noteSpawnQueue.Add(note);
 
-        info.railIdx = 4;
-        info.type = (int)GameNoteType.SHORT;
-        info.time = 5 * bpm;
-        noteSpawnQueue.Add(info);
+        note.railIdx = 4;
+        note.type = (int)GameNoteType.SHORT;
+        note.time = 5 * bpm;
+        noteSpawnQueue.Add(note);
 
-        info.railIdx = 5;
-        info.type = (int)GameNoteType.SHORT;
-        info.time = 6 * bpm;
-        noteSpawnQueue.Add(info);
+        note.railIdx = 5;
+        note.type = (int)GameNoteType.SHORT;
+        note.time = 6 * bpm;
+        noteSpawnQueue.Add(note);
         
         for (int i = 0; i < noteSpawnQueue_perRail.Length; i++)
         {
-            noteSpawnQueue_perRail[i] = new List<GameNoteInfo>();
+            noteSpawnQueue_perRail[i] = new List<NoteData>();
         }
 
         for (int i = 0; i < noteSpawnQueue.Count; i++)

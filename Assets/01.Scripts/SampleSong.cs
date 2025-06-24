@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class SampleSong : MonoBehaviour
 {
-    public List<GameNoteInfo> allGameNoteInfo = new List<GameNoteInfo>();
-    public List<GameNoteInfo>[] gameNoteInfo_Rails = new List<GameNoteInfo>[railCount];
+    public List<NoteData> allGameNoteInfo = new List<NoteData>();
+    public List<NoteData>[] gameNoteInfo_Rails = new List<NoteData>[railCount];
     const int railCount = 6;
     
     //05. FLOP test
     #region FLOP
     void InputTestFLOP()
     {
-        GameNoteInfo info = new GameNoteInfo();
+        NoteData info = new NoteData();
 
         #region Pattern01
 
         //���� 1) Pattern 1 - Short
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1;
@@ -26,7 +26,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 31;
@@ -35,7 +35,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 61;
@@ -44,7 +44,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 76;
@@ -53,7 +53,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.SHORT;
         info.time = 121;
@@ -62,7 +62,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 151;
@@ -71,7 +71,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 181;
@@ -80,7 +80,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 211;
@@ -90,7 +90,7 @@ public class SampleSong : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 2) Pattern 1
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 241;
@@ -99,7 +99,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 271;
@@ -108,7 +108,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 301;
@@ -117,7 +117,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 316;
@@ -126,7 +126,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.SHORT;
         info.time = 361;
@@ -135,7 +135,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 391;
@@ -144,7 +144,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 421;
@@ -153,7 +153,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 451;
@@ -163,7 +163,7 @@ public class SampleSong : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 3) Pattern 1
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 0;
         info.type = (int)GameNoteType.SHORT;
         info.time = 481;
@@ -172,7 +172,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 511;
@@ -181,7 +181,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 541;
@@ -190,7 +190,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 556;
@@ -199,7 +199,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 601;
@@ -208,7 +208,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 631;
@@ -217,7 +217,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 661;
@@ -226,7 +226,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 691;
@@ -236,7 +236,7 @@ public class SampleSong : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 4) Pattern 1
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 0;
         info.type = (int)GameNoteType.SHORT;
         info.time = 721;
@@ -245,7 +245,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 751;
@@ -254,7 +254,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 781;
@@ -263,7 +263,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 796;
@@ -272,7 +272,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 841;
@@ -281,7 +281,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 871;
@@ -290,7 +290,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 901;
@@ -299,7 +299,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 931;
@@ -313,7 +313,7 @@ public class SampleSong : MonoBehaviour
 
         #region Pattern02
         //���� 5) Pattern 2
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 961;
@@ -322,7 +322,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 976;
@@ -349,7 +349,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1006;
@@ -358,7 +358,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1021;
@@ -376,7 +376,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1043.5f;
@@ -385,7 +385,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1058.5f;
@@ -394,7 +394,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1081f;
@@ -403,7 +403,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1096f;
@@ -430,7 +430,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1126f;
@@ -439,7 +439,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1141f;
@@ -448,7 +448,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1178.5f;
@@ -458,7 +458,7 @@ public class SampleSong : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 6) Pattern 2
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1201;
@@ -467,7 +467,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1216;
@@ -494,7 +494,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1246;
@@ -503,7 +503,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1261;
@@ -530,7 +530,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1327.5f;
@@ -539,7 +539,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1342.5f;
@@ -557,7 +557,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.LONG;
         info.time = 1365;
@@ -566,7 +566,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.LONG;
         info.time = 1411;
@@ -594,7 +594,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1463.5f;
@@ -603,7 +603,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1478.5f;
@@ -630,7 +630,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1508.5f;
@@ -639,7 +639,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1523.5f;
@@ -649,7 +649,7 @@ public class SampleSong : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //***
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1550;
@@ -676,7 +676,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1583.5f;
@@ -685,7 +685,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1598.5f;
@@ -703,7 +703,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1621;
@@ -712,7 +712,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1658.5f;
@@ -723,7 +723,7 @@ public class SampleSong : MonoBehaviour
 
         //���� 8) Pattern 2
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1681;
@@ -732,7 +732,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1696;
@@ -759,7 +759,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1726;
@@ -768,7 +768,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1741;
@@ -795,7 +795,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1807.5f;
@@ -804,7 +804,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1822.5f;
@@ -822,7 +822,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 1845;
@@ -831,7 +831,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 1891;
@@ -890,7 +890,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2011;
@@ -926,7 +926,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 2101;
@@ -973,7 +973,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2191;
@@ -1009,7 +1009,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 2281;
@@ -1054,7 +1054,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2371;
@@ -1063,7 +1063,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2393.5f;
@@ -1091,7 +1091,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2431;
@@ -1127,7 +1127,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 2521;
@@ -1172,7 +1172,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2611;
@@ -1218,7 +1218,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.DRAG_LEFT;
         info.time = 2701;
@@ -1254,7 +1254,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2791;
@@ -1263,7 +1263,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2821;
@@ -1290,7 +1290,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2873.5f;
@@ -1303,7 +1303,7 @@ public class SampleSong : MonoBehaviour
         #region Pattern04
 
         //���� 13-14) Pattern 4
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 2881;
@@ -1312,7 +1312,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 3090;
@@ -1321,7 +1321,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3091;
@@ -1330,7 +1330,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3300;
@@ -1339,7 +1339,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = false;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3301;
@@ -1348,7 +1348,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3323.5f;
@@ -1377,7 +1377,7 @@ public class SampleSong : MonoBehaviour
 
         //���� 15-16) Pattern 4
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 3361;
@@ -1386,7 +1386,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 3570;
@@ -1395,7 +1395,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3571;
@@ -1404,7 +1404,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3780;
@@ -1431,7 +1431,7 @@ public class SampleSong : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3811;
@@ -1440,7 +1440,7 @@ public class SampleSong : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3833.5f;
@@ -1454,7 +1454,7 @@ public class SampleSong : MonoBehaviour
 
         for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
         {
-            gameNoteInfo_Rails[i] = new List<GameNoteInfo>();
+            gameNoteInfo_Rails[i] = new List<NoteData>();
         }
 
         for (int i = 0; i < allGameNoteInfo.Count; i++)

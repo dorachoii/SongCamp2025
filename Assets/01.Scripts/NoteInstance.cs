@@ -13,7 +13,7 @@ public enum GameNoteType
 
 // gamenote 골격
 [System.Serializable]
-public struct GameNoteInfo
+public struct NoteData
 {
     public int railIdx;
     public int type;
@@ -24,7 +24,7 @@ public struct GameNoteInfo
     public byte pitch;
 
     // 생성자
-    public GameNoteInfo(int railIdx, int type, float time)
+    public NoteData(int railIdx, int type, float time)
     {
         this.railIdx = railIdx;
         this.type = type;
@@ -43,7 +43,7 @@ public struct GameNoteInfo
 //02.Note_Connect
 //03.Note_autoDestroy
     
-public class EJGameNote : MonoBehaviour
+public class NoteInstance : MonoBehaviour
 {
     //01.Note_Flow Variables
     int bpm = 120;
@@ -51,14 +51,14 @@ public class EJGameNote : MonoBehaviour
     public float speed = 5.5f;
 
     //02.Note_Connect Variables
-    public GameNoteInfo noteInfo;
+    public NoteData noteInfo;
     public GameObject linkNotePrefab;
     GameObject linkNote;
     GameObject startN;
     GameObject endN;
 
     //03.Note_autoDestroy
-    public Action<int, EJGameNote, bool> autoDestroyAction;
+    public Action<int, NoteInstance, bool> autoDestroyAction;
     Transform touchpad;
 
 

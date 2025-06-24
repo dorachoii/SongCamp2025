@@ -3586,7 +3586,7 @@ GameObject:
   - component: {fileID: 568990123}
   - component: {fileID: 568990124}
   m_Layer: 0
-  m_Name: ScoreManager
+  m_Name: TouchManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3616,9 +3616,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 568990122}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8575663293e248c4287ed33cbdb7d8ec, type: 3}
+  m_Script: {fileID: 11500000, guid: fb058b048646f2240a356cd7142cd71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rails:
+  - {fileID: 1476758201}
+  - {fileID: 1411550921}
+  - {fileID: 1612820498}
+  - {fileID: 1725815816}
+  - {fileID: 574634384}
+  - {fileID: 96546129}
+  activeMats:
+  - {fileID: 2100000, guid: d9546d254259f2d45ab914e5173e0c20, type: 2}
+  - {fileID: 2100000, guid: 2b223994b31937a4e983fdace961dae4, type: 2}
+  - {fileID: 2100000, guid: ec1fb1655dddc9b40b562a5f5530406c, type: 2}
+  - {fileID: 2100000, guid: 76113dd177d2e114f81a39e75abf3c67, type: 2}
+  - {fileID: 2100000, guid: cd45e5110fb611f4f87a9d971b253569, type: 2}
+  - {fileID: 2100000, guid: df869147982b01840afb472feef7be6e, type: 2}
+  defaultMats:
+  - {fileID: 2100000, guid: 18d523c9a8c69c64e8c1e3cd7043755d, type: 2}
+  - {fileID: 2100000, guid: 3475d2d1dbfdb854d88642968974a4b6, type: 2}
+  - {fileID: 2100000, guid: 9609e89336a07de4da14fd18abafcb5c, type: 2}
+  - {fileID: 2100000, guid: c88947b74a184ae47a75ead7a37d9a48, type: 2}
+  - {fileID: 2100000, guid: 23ad950e81db2734f9526c8fd353cbb2, type: 2}
+  - {fileID: 2100000, guid: d48f498b9d0aa8c42b02645f239b04a2, type: 2}
 --- !u!1 &574634384
 GameObject:
   m_ObjectHideFlags: 0
@@ -9046,7 +9067,7 @@ GameObject:
   - component: {fileID: 1560883482}
   - component: {fileID: 1560883483}
   m_Layer: 0
-  m_Name: InputManager
+  m_Name: NoteManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9081,7 +9102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notePrefabs:
   - {fileID: 1738437629145288571, guid: 0ab42540ed1cf1345969f1e37a1bef96, type: 3}
-  spawnPos:
+  spawnRails:
   - {fileID: 2140195094}
   - {fileID: 492973348}
   - {fileID: 52916350}

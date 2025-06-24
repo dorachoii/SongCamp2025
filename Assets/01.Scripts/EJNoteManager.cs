@@ -46,12 +46,12 @@ public class EJNoteManager : MonoBehaviour
     float currTime;
 
     //01-1.noteData _ ������ ��⿭ ����
-    public List<GameNoteInfo> allGameNoteInfo = new List<GameNoteInfo>();
-    public List<GameNoteInfo>[] gameNoteInfo_Rails = new List<GameNoteInfo>[railCount];
+    public List<NoteData> allGameNoteInfo = new List<NoteData>();
+    public List<NoteData>[] gameNoteInfo_Rails = new List<NoteData>[railCount];
 
     //01-2.Hierarchy - instance noteData
-    List<EJGameNote>[] gameNoteInstance_Rails = new List<EJGameNote>[railCount];
-    EJGameNote[] gameStartNoteArr = new EJGameNote[railCount];
+    List<NoteInstance>[] gameNoteInstance_Rails = new List<NoteInstance>[railCount];
+    NoteInstance[] gameStartNoteArr = new NoteInstance[railCount];
 
     //02. Note_pressCheck
     bool[] isTouchPadPressed = new bool[railCount];
@@ -101,7 +101,7 @@ public class EJNoteManager : MonoBehaviour
         for (int i = 0; i < gameNoteInstance_Rails.Length; i++)
         {
             //notes properties list per Rails
-            gameNoteInstance_Rails[i] = new List<EJGameNote>();
+            gameNoteInstance_Rails[i] = new List<NoteInstance>();
         }
 
         InputTestSHORTNotes();    //test FINISHED!!!
@@ -172,7 +172,7 @@ public class EJNoteManager : MonoBehaviour
 
                     //���� instantiated�� Note�� info�� ��⿭�� ������ ����ְ�
                     //���ο� ����Ʈ�� �迭�� �־��ְ� ����.
-                    EJGameNote noteInstance = note.GetComponent<EJGameNote>();
+                    NoteInstance noteInstance = note.GetComponent<NoteInstance>();
 
                     #region �Լ��� ������ �κ� �ȵǸ� Ǯ��
                     //noteInstance.noteInfo = noteInfo_Rails[i][0];
@@ -199,7 +199,7 @@ public class EJNoteManager : MonoBehaviour
                             print("*11111 noteInstantiate ���� - noteInstance�� type��" + noteInstance.noteInfo.type + "noteInstance�� isLongStart��" + noteInstance.noteInfo.isLongNoteStart + "���翭�� 0���� ��� ����" + gameNoteInstance_Rails[i][0]);
 
                             int startNoteIdx = gameNoteInstance_Rails[i].Count - 1 - 1;
-                            gameNoteInstance_Rails[i][startNoteIdx].GetComponent<EJGameNote>().connectNote(noteInstance.gameObject);
+                            gameNoteInstance_Rails[i][startNoteIdx].GetComponent<NoteInstance>().connectNote(noteInstance.gameObject);
                             
                             //������ startNote ĭ�� �����ش�.
                             //�׷��� endNote�� 0��° �ε����� üũ�� �� �����ϱ�
@@ -560,7 +560,7 @@ public class EJNoteManager : MonoBehaviour
     }
 
 
-    void noteInstantiate(int n, EJGameNote noteInstance)
+    void noteInstantiate(int n, NoteInstance noteInstance)
     {
         //���� ����Ʈ�� ��⿭�� ������ �־ Insert
         noteInstance.noteInfo = gameNoteInfo_Rails[n][0];
@@ -966,7 +966,7 @@ public class EJNoteManager : MonoBehaviour
     #region SHORT
     void InputTestSHORTNotes()
     {
-        GameNoteInfo info = new GameNoteInfo();
+        NoteData info = new NoteData();
 
         info.railIdx = 0;
         info.type = (int)GameNoteType.SHORT;
@@ -976,7 +976,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2 * bpm;
@@ -985,7 +985,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3 * bpm;
@@ -994,7 +994,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 4 * bpm;
@@ -1003,7 +1003,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 5 * bpm;
@@ -1012,7 +1012,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.SHORT;
         info.time = 6 * bpm;
@@ -1021,7 +1021,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 7 * bpm;
@@ -1030,7 +1030,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 8 * bpm;
@@ -1042,7 +1042,7 @@ public class EJNoteManager : MonoBehaviour
 
         for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
         {
-            gameNoteInfo_Rails[i] = new List<GameNoteInfo>();
+            gameNoteInfo_Rails[i] = new List<NoteData>();
         }
 
         for (int i = 0; i < allGameNoteInfo.Count; i++)
@@ -1056,7 +1056,7 @@ public class EJNoteManager : MonoBehaviour
     #region LONG
     void InputTestLONGNotes()
     {
-        GameNoteInfo info = new GameNoteInfo();
+        NoteData info = new NoteData();
 
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
@@ -1093,7 +1093,7 @@ public class EJNoteManager : MonoBehaviour
 
         for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
         {
-            gameNoteInfo_Rails[i] = new List<GameNoteInfo>();
+            gameNoteInfo_Rails[i] = new List<NoteData>();
         }
 
         for (int i = 0; i < allGameNoteInfo.Count; i++)
@@ -1107,9 +1107,9 @@ public class EJNoteManager : MonoBehaviour
     #region DRAG
     void InputTestDRAGNote()
     {
-        GameNoteInfo info = new GameNoteInfo();
+        NoteData info = new NoteData();
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 1*bpm;
@@ -1118,7 +1118,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.DRAG_LEFT;
         info.time = 4 * bpm;
@@ -1165,7 +1165,7 @@ public class EJNoteManager : MonoBehaviour
 
         for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
         {
-            gameNoteInfo_Rails[i] = new List<GameNoteInfo>();
+            gameNoteInfo_Rails[i] = new List<NoteData>();
         }
 
         for (int i = 0; i < allGameNoteInfo.Count; i++)
@@ -1180,7 +1180,7 @@ public class EJNoteManager : MonoBehaviour
     #region MIXED
     void InputTestMIXEDNote()
     {
-        GameNoteInfo info = new GameNoteInfo();
+        NoteData info = new NoteData();
 
         info.railIdx = 0;
         info.type = (int)GameNoteType.SHORT;
@@ -1189,7 +1189,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3;
@@ -1197,7 +1197,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.SHORT;
         info.time = 4;
@@ -1205,7 +1205,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 6;
@@ -1213,7 +1213,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 6;
@@ -1221,7 +1221,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 6;
@@ -1229,7 +1229,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 7;
@@ -1237,7 +1237,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.SHORT;
         info.time = 9;
@@ -1245,7 +1245,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 2;
@@ -1253,7 +1253,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 4;
@@ -1261,7 +1261,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 7;
@@ -1269,7 +1269,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 8;
@@ -1277,7 +1277,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 5;
@@ -1286,7 +1286,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.DRAG_LEFT;
         info.time = 5;
@@ -1297,7 +1297,7 @@ public class EJNoteManager : MonoBehaviour
 
         for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
         {
-            gameNoteInfo_Rails[i] = new List<GameNoteInfo>();
+            gameNoteInfo_Rails[i] = new List<NoteData>();
         }
 
         for (int i = 0; i < allGameNoteInfo.Count; i++)
@@ -1313,12 +1313,12 @@ public class EJNoteManager : MonoBehaviour
     #region FLOP
     void InputTestFLOP()
     {
-        GameNoteInfo info = new GameNoteInfo();
+        NoteData info = new NoteData();
 
         #region Pattern01
 
         //���� 1) Pattern 1 - Short
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1;
@@ -1327,7 +1327,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 31;
@@ -1336,7 +1336,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 61;
@@ -1345,7 +1345,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 76;
@@ -1354,7 +1354,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.SHORT;
         info.time = 121;
@@ -1363,7 +1363,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 151;
@@ -1372,7 +1372,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 181;
@@ -1381,7 +1381,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 211;
@@ -1391,7 +1391,7 @@ public class EJNoteManager : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 2) Pattern 1
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 241;
@@ -1400,7 +1400,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 271;
@@ -1409,7 +1409,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 301;
@@ -1418,7 +1418,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 316;
@@ -1427,7 +1427,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.SHORT;
         info.time = 361;
@@ -1436,7 +1436,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 391;
@@ -1445,7 +1445,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 421;
@@ -1454,7 +1454,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 451;
@@ -1464,7 +1464,7 @@ public class EJNoteManager : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 3) Pattern 1
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 0;
         info.type = (int)GameNoteType.SHORT;
         info.time = 481;
@@ -1473,7 +1473,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 511;
@@ -1482,7 +1482,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 541;
@@ -1491,7 +1491,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 556;
@@ -1500,7 +1500,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 601;
@@ -1509,7 +1509,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 631;
@@ -1518,7 +1518,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 661;
@@ -1527,7 +1527,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 691;
@@ -1537,7 +1537,7 @@ public class EJNoteManager : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 4) Pattern 1
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 0;
         info.type = (int)GameNoteType.SHORT;
         info.time = 721;
@@ -1546,7 +1546,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 751;
@@ -1555,7 +1555,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 781;
@@ -1564,7 +1564,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 796;
@@ -1573,7 +1573,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 841;
@@ -1582,7 +1582,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 871;
@@ -1591,7 +1591,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 901;
@@ -1600,7 +1600,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.SHORT;
         info.time = 931;
@@ -1614,7 +1614,7 @@ public class EJNoteManager : MonoBehaviour
 
         #region Pattern02
         //���� 5) Pattern 2
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 961;
@@ -1623,7 +1623,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 976;
@@ -1650,7 +1650,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1006;
@@ -1659,7 +1659,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1021;
@@ -1677,7 +1677,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1043.5f;
@@ -1686,7 +1686,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1058.5f;
@@ -1695,7 +1695,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1081f;
@@ -1704,7 +1704,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1096f;
@@ -1731,7 +1731,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1126f;
@@ -1740,7 +1740,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1141f;
@@ -1749,7 +1749,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1178.5f;
@@ -1759,7 +1759,7 @@ public class EJNoteManager : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //���� 6) Pattern 2
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1201;
@@ -1768,7 +1768,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1216;
@@ -1795,7 +1795,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1246;
@@ -1804,7 +1804,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1261;
@@ -1831,7 +1831,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1327.5f;
@@ -1840,7 +1840,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1342.5f;
@@ -1858,7 +1858,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.LONG;
         info.time = 1365;
@@ -1867,7 +1867,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 5;
         info.type = (int)GameNoteType.LONG;
         info.time = 1411;
@@ -1895,7 +1895,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1463.5f;
@@ -1904,7 +1904,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1478.5f;
@@ -1931,7 +1931,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1508.5f;
@@ -1940,7 +1940,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1523.5f;
@@ -1950,7 +1950,7 @@ public class EJNoteManager : MonoBehaviour
         allGameNoteInfo.Add(info);
 
         //***
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1550;
@@ -1977,7 +1977,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1583.5f;
@@ -1986,7 +1986,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1598.5f;
@@ -2004,7 +2004,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1621;
@@ -2013,7 +2013,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.LONG;
         info.time = 1658.5f;
@@ -2024,7 +2024,7 @@ public class EJNoteManager : MonoBehaviour
 
         //���� 8) Pattern 2
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1681;
@@ -2033,7 +2033,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1696;
@@ -2060,7 +2060,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1726;
@@ -2069,7 +2069,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1741;
@@ -2096,7 +2096,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1807.5f;
@@ -2105,7 +2105,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 1822.5f;
@@ -2123,7 +2123,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 1845;
@@ -2132,7 +2132,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 1891;
@@ -2191,7 +2191,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2011;
@@ -2227,7 +2227,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 2101;
@@ -2274,7 +2274,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2191;
@@ -2310,7 +2310,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 2281;
@@ -2355,7 +2355,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2371;
@@ -2364,7 +2364,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2393.5f;
@@ -2392,7 +2392,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2431;
@@ -2428,7 +2428,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.DRAG_RIGHT;
         info.time = 2521;
@@ -2473,7 +2473,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2611;
@@ -2519,7 +2519,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.DRAG_LEFT;
         info.time = 2701;
@@ -2555,7 +2555,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2791;
@@ -2564,7 +2564,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2821;
@@ -2591,7 +2591,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 2;
         info.type = (int)GameNoteType.SHORT;
         info.time = 2873.5f;
@@ -2604,7 +2604,7 @@ public class EJNoteManager : MonoBehaviour
         #region Pattern04
 
         //���� 13-14) Pattern 4
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 2881;
@@ -2613,7 +2613,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 3090;
@@ -2622,7 +2622,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3091;
@@ -2631,7 +2631,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3300;
@@ -2640,7 +2640,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = false;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3301;
@@ -2649,7 +2649,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3323.5f;
@@ -2678,7 +2678,7 @@ public class EJNoteManager : MonoBehaviour
 
         //���� 15-16) Pattern 4
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 3361;
@@ -2687,7 +2687,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.LONG;
         info.time = 3570;
@@ -2696,7 +2696,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3571;
@@ -2705,7 +2705,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 1;
         info.type = (int)GameNoteType.LONG;
         info.time = 3780;
@@ -2732,7 +2732,7 @@ public class EJNoteManager : MonoBehaviour
         //info.isNoteEnabled = true;
         //allNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 4;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3811;
@@ -2741,7 +2741,7 @@ public class EJNoteManager : MonoBehaviour
         info.isNoteEnabled = true;
         allGameNoteInfo.Add(info);
 
-        info = new GameNoteInfo();
+        info = new NoteData();
         info.railIdx = 3;
         info.type = (int)GameNoteType.SHORT;
         info.time = 3833.5f;
@@ -2755,7 +2755,7 @@ public class EJNoteManager : MonoBehaviour
 
         for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
         {
-            gameNoteInfo_Rails[i] = new List<GameNoteInfo>();
+            gameNoteInfo_Rails[i] = new List<NoteData>();
         }
 
         for (int i = 0; i < allGameNoteInfo.Count; i++)
