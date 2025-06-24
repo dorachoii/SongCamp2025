@@ -5,9 +5,9 @@ using UnityEngine;
 /// <summary>
 /// ダメージなどの際にカメラを揺らすスクリプト
 /// </summary>
-public class EJcamShake : MonoBehaviour
+public class CamShake : MonoBehaviour
 {
-    public static EJcamShake instance;
+    public static CamShake instance;
 
     float shakeDuration = 0.2f;
     float shakeAmount = 0.5f;

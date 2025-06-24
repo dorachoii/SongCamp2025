@@ -69,11 +69,6 @@ public class EJScoreManager : MonoBehaviour
     public IEnumerator showScoreText(string sss, int railIdx, int score)
     {
 
-        //Ã³À½
-        //GameObject scoreText = Instantiate(scoreTexts[n], canvas.transform.position - Vector3.forward, Quaternion.identity);
-        //scoreText.transform.SetParent(canvas.transform);
-
-        //Destroy(scoreText, 0.5f);
         textScore.text = sss + "!";
 
         if (!(sss == "Miss"))

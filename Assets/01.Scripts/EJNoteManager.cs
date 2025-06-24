@@ -104,7 +104,7 @@ public class EJNoteManager : MonoBehaviour
             gameNoteInstance_Rails[i] = new List<EJGameNote>();
         }
 
-        //InputTestSHORTNotes();    //test FINISHED!!!
+        InputTestSHORTNotes();    //test FINISHED!!!
         //InputTestLONGNotes();     //test FINISHED_1��!!!
         //InputTestDRAGNote();
         //InputTestMIXEDNote();
@@ -239,7 +239,7 @@ public class EJNoteManager : MonoBehaviour
                                 print("*****���� autoDestroyAction�� ��� ����Ǵ� Note�� isLongStart����" + noteInstance.noteInfo.isLongNoteStart);
                                 //showScoreText(4);
                                 EJScoreManager.instance.StartShowScoreText("Miss",railIdx,0);
-                                EJcamShake.instance.StartShake(0.2f, 0.5f, 1);
+                                CamShake.instance.StartShake(0.2f, 0.5f, 1);
                             }
                         }
                     };
@@ -941,7 +941,7 @@ public class EJNoteManager : MonoBehaviour
         EJScoreManager.instance.StartShowScoreText("Miss",0,0);
 
         //�ȵǴ� ����..? ���������̶�?
-        EJcamShake.instance.StartShake(0.2f, 0.5f, 1);      
+        CamShake.instance.StartShake(0.2f, 0.5f, 1);      
     }
 
     public void PressDestroy(int n)

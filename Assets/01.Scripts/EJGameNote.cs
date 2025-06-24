@@ -2,16 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Unity.VisualScripting;
-using UnityEngine.UIElements;
+
+public enum GameNoteType
+{
+    SHORT,
+    LONG,
+    DRAG_RIGHT,
+    DRAG_LEFT,
+}
+
+// gamenote ê³¨ê²©
+[System.Serializable]
+public struct GameNoteInfo
+{
+    public int railIdx;
+    public int type;
+    public float time;
+    public bool isLongNoteStart;
+    public int DRAG_release_idx;
+    public bool isNoteEnabled;
+    public byte pitch;
+
+    // ìƒì„±ì
+    public GameNoteInfo(int railIdx, int type, float time)
+    {
+        this.railIdx = railIdx;
+        this.type = type;
+        this.time = time;
+
+        this.isLongNoteStart = false;
+        this.DRAG_release_idx = 0;
+        this.isNoteEnabled = true;
+        this.pitch = 0;
+    }
+}
 
 
+// gamesceneì— ì¸ìŠ¤í„´ìŠ¤í™”ëœ í´ë˜ìŠ¤
+//01.Note_Flow
+//02.Note_Connect
+//03.Note_autoDestroy
+    
 public class EJGameNote : MonoBehaviour
 {
-    //01.Note_Flow
-    //02.Note_Connect
-    //03.Note_autoDestroy
-
     //01.Note_Flow Variables
     int bpm = 120;
     float spb;
@@ -42,12 +75,11 @@ public class EJGameNote : MonoBehaviour
     void Update()
     {
         //01.Note_Flow
-        //===== ¼öÁ¤ ÇÊ¿ä ===== noteÀÇ speed = bpm
-        transform.position += Vector3.down * Time.deltaTime * speed/* * spb*/;
+        transform.position += Vector3.down * Time.deltaTime * speed;
 
         //02.Note_autoDestroy isPassed Check
-        if (transform.position.y +3f < touchpad.position.y)
-        {           
+        if (transform.position.y + 3f < touchpad.position.y)
+        {
             autoDestroy(true);
         }
 
@@ -62,18 +94,14 @@ public class EJGameNote : MonoBehaviour
         //03. passDestroy
 
         if (autoDestroyAction != null) autoDestroyAction(noteInfo.railIdx, this, isPassed);
-
-
-        print("*****ÇöÀç autoDestroy°¡ ½ÇÇàµÇ´Â NoteÀÇ isLongStart°ªÀº" + noteInfo.isLongNoteStart);
         Destroy(gameObject);
-        
     }
 
     //03.Note_Connect
-    //03-1.endNote°¡ ³ª¿À¸é start-end»çÀÌÀÇ °Å¸®¸¦ ±¸ÇØ ÀÌ¾îÁÖ´Â ¹æ½Ä
+    //03-1.endNoteï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ start-endï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¾ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
     public void connectNote(GameObject endN)
     {
-        print("* connectNote°¡ ½ÇÇàµÇ¾ú½À´Ï´Ù");
+        print("* connectNoteï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½");
 
         startN = this.gameObject;
 
@@ -81,24 +109,13 @@ public class EJGameNote : MonoBehaviour
 
         linkNote = Instantiate(linkNotePrefab, (startN.transform.position + endN.transform.position) / 2, Quaternion.identity);
         linkNote.transform.SetParent(endN.transform);
-        
-        
-
-        //³Ö°ÔµÇ¸é pad¸¦ Áö³ª°£ °Í¿¡ ´ëÇÑ Ã¼Å©¸¦ ¶Ç ÇÏ±â ¶§¹®!
-
-        //linkNote.AddComponent<EJNote>();
-        //EJNote linknote = linkNote.GetComponent<EJNote>();
-        //linknote.noteInfo.type = (int)NoteType.LONG;
-        //linknote.speed = 0;
-
-
 
         float length = (endN.transform.localPosition.y - startN.transform.localPosition.y);
-        linkNote.transform.localScale += new Vector3(0, length, 0);             
+        linkNote.transform.localScale += new Vector3(0, length, 0);
     }
 
 
-    //03-2.startNote°¡ ³ª¿À¸é linkNoteÀÇ °Å¸®¸¦ ´Ã¸®´Ù°¡, end¿¡ ´êÀ¸¸é ÀÚ¶óÁö ¾Ê´Â ¹æ½Ä
+    //03-2.startNoteï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ linkNoteï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½Ù°ï¿½, endï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¶ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
     public IEnumerator connectNote2(GameObject endN)
     {
         linkNote = Instantiate(linkNotePrefab, (startN.transform.position + endN.transform.position) / 2, Quaternion.identity);
