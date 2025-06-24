@@ -346,7 +346,7 @@ MonoBehaviour:
     DRAG_release_idx: 0
     isNoteEnabled: 0
     pitch: 0
-  linkNotePrefab: {fileID: 1738437629145288571}
+  linkNotePrefab: {fileID: 1214568008692601059, guid: 94aeddc9a4223f542bd49f314b4dc725, type: 3}
 --- !u!54 &9109207050051519643
 Rigidbody:
   m_ObjectHideFlags: 0

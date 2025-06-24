@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public enum GameNoteType
+public enum NoteType
 {
     SHORT,
     LONG,
@@ -11,7 +10,6 @@ public enum GameNoteType
     DRAG_LEFT,
 }
 
-// gamenote 골격
 [System.Serializable]
 public struct NoteData
 {
@@ -23,13 +21,11 @@ public struct NoteData
     public bool isNoteEnabled;
     public byte pitch;
 
-    // 생성자
     public NoteData(int railIdx, int type, float time)
     {
         this.railIdx = railIdx;
         this.type = type;
         this.time = time;
-
         this.isLongNoteStart = false;
         this.DRAG_release_idx = 0;
         this.isNoteEnabled = true;
@@ -37,100 +33,81 @@ public struct NoteData
     }
 }
 
-
-// gamescene에 인스턴스화된 클래스
-//01.Note_Flow
-//02.Note_Connect
-//03.Note_autoDestroy
-    
 public class NoteInstance : MonoBehaviour
 {
-    //01.Note_Flow Variables
     int bpm = 120;
-    float spb;
     public float speed = 5.5f;
 
-    //02.Note_Connect Variables
     public NoteData noteInfo;
     public GameObject linkNotePrefab;
-    GameObject linkNote;
-    GameObject startN;
-    GameObject endN;
 
-    //03.Note_autoDestroy
+    GameObject linkNote;
+    bool isGrowing = false;
+
     public Action<int, NoteInstance, bool> autoDestroyAction;
     Transform touchpad;
 
+    public static Func<int, NoteInstance, NoteInstance> GetNextNoteInRail; // delegate injection from NoteManager
 
     void Start()
     {
-        //01.Note_Flow
-        spb = 60 / bpm;
-
-        //02.Note_autoDestroy
         touchpad = GameObject.FindWithTag("TouchPad").transform;
-    }
 
+        if ((NoteType)noteInfo.type == NoteType.LONG && noteInfo.isLongNoteStart)
+        {
+            StartCoroutine(GrowLinkCoroutine());
+        }
+    }
 
     void Update()
     {
-        //01.Note_Flow
         transform.position += Vector3.down * Time.deltaTime * speed;
 
-        //02.Note_autoDestroy isPassed Check
         if (transform.position.y + 3f < touchpad.position.y)
         {
             autoDestroy(true);
         }
-
     }
 
-    //02.Note_autoDestroy
-    public void autoDestroy(bool isPassed = false)
+    IEnumerator GrowLinkCoroutine()
     {
-        //autoDestroyAction Parameter
-        //01. rail_idx
-        //02. noteInfo
-        //03. passDestroy
+        linkNote = Instantiate(linkNotePrefab, transform.position, Quaternion.identity);
 
-        if (autoDestroyAction != null) autoDestroyAction(noteInfo.railIdx, this, isPassed);
-        Destroy(gameObject);
-    }
+        linkNote.transform.SetParent(transform);
+        linkNote.transform.localPosition = Vector3.zero;
+        Vector3 scale = linkNote.transform.localScale;
+        scale.y = 0;
+        linkNote.transform.localScale = scale;
 
-    //03.Note_Connect
-    //03-1.endNote�� ������ start-end������ �Ÿ��� ���� �̾��ִ� ���
-    public void connectNote(GameObject endN)
-    {
-        print("* connectNote�� ����Ǿ����ϴ�");
+        isGrowing = true;
 
-        startN = this.gameObject;
+        NoteInstance endNote = null;
 
-        if (endN == null) return;
-
-        linkNote = Instantiate(linkNotePrefab, (startN.transform.position + endN.transform.position) / 2, Quaternion.identity);
-        linkNote.transform.SetParent(endN.transform);
-
-        float length = (endN.transform.localPosition.y - startN.transform.localPosition.y);
-        linkNote.transform.localScale += new Vector3(0, length, 0);
-    }
-
-
-    //03-2.startNote�� ������ linkNote�� �Ÿ��� �ø��ٰ�, end�� ������ �ڶ��� �ʴ� ���
-    public IEnumerator connectNote2(GameObject endN)
-    {
-        linkNote = Instantiate(linkNotePrefab, (startN.transform.position + endN.transform.position) / 2, Quaternion.identity);
-        linkNote.transform.SetParent(startN.transform);
-        float length = (endN.transform.localPosition.y - startN.transform.localPosition.y);
-
-        while (linkNote.transform.position.y == length)
+        while (isGrowing)
         {
-            linkNote.transform.position += new Vector3(0, 1, 0);
+            float growSpeed = speed * Time.deltaTime;
+            linkNote.transform.localScale += new Vector3(0, growSpeed / 2.5f, 0);
+
+            if (endNote == null && GetNextNoteInRail != null)
+            {
+                endNote = GetNextNoteInRail(noteInfo.railIdx, this);
+                
+            }
+
+            if (endNote != null)
+            {
+                endNote.transform.SetParent(transform);
+                endNote.gameObject.GetComponent<NoteInstance>().enabled = false;
+                isGrowing = false;              
+            }
+
             yield return null;
         }
     }
 
-    public void startConnecting(GameObject endN)
+    public void autoDestroy(bool isPassed = false)
     {
-        StartCoroutine(connectNote2(endN));
+        if (autoDestroyAction != null) autoDestroyAction(noteInfo.railIdx, this, isPassed);
+        Destroy(gameObject);
     }
 }

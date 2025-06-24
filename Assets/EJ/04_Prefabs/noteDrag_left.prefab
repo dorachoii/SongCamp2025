@@ -223,6 +223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3488492796545120431}
+  - component: {fileID: -8886000209235996356}
   m_Layer: 0
   m_Name: noteDrag_left
   m_TagString: Untagged
@@ -246,6 +247,28 @@ Transform:
   - {fileID: 6100381557510049872}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &-8886000209235996356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433315881158573589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4442b8377c2aa14f894f4889e374c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5.5
+  noteInfo:
+    railIdx: 0
+    type: 0
+    time: 0
+    isLongNoteStart: 0
+    DRAG_release_idx: 0
+    isNoteEnabled: 0
+    pitch: 0
+  linkNotePrefab: {fileID: 1214568008692601059, guid: 94aeddc9a4223f542bd49f314b4dc725, type: 3}
 --- !u!1 &2340190656041953151
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Melanchall.DryWetMidi.Interaction;
 using UnityEngine;
 
 // 생성과 파괴 담당
@@ -50,11 +51,21 @@ public class NoteManager : MonoBehaviour
         {
             noteSpawnQueue_perRail[i] = new List<NoteData>();
         }
+
+            NoteInstance.GetNextNoteInRail = (railIdx, currentNote) => {
+            var list = spawnedNotes_perRail[railIdx];
+            int idx = list.IndexOf(currentNote);
+            if (idx >= 0 && idx + 1 < list.Count)
+                return list[idx + 1];
+            return null;
+        };
     }
 
     void Start()
     {
-        TestSHORT();
+        //TestSHORT();
+        //TestDRAG();
+        TestLONG();
     }
 
 
@@ -87,37 +98,78 @@ public class NoteManager : MonoBehaviour
         noteSpawnQueue_perRail[n].RemoveAt(0);
     }
 
+    void TestLONG()
+    {
+        NoteData note = new NoteData();
+        note.railIdx = 3;
+        note.type = (int)NoteType.LONG;
+        note.time = 1 * bpm;
+        note.isLongNoteStart = true;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 3;
+        note.type = (int)NoteType.LONG;
+        note.time = 3 * bpm;
+        note.isLongNoteStart = false;
+        noteSpawnQueue.Add(note);
+
+        for (int i = 0; i < noteSpawnQueue.Count; i++)
+        {
+            noteSpawnQueue_perRail[noteSpawnQueue[i].railIdx].Add(noteSpawnQueue[i]);
+        }
+    }
+
+    void TestDRAG()
+    {
+        NoteData note = new NoteData();
+        note.railIdx = 2;
+        note.type = (int)NoteType.DRAG_LEFT;
+        note.time = 1 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 3;
+        note.type = (int)NoteType.DRAG_RIGHT;
+        note.time = 1 * bpm;
+        noteSpawnQueue.Add(note);
+        
+        for (int i = 0; i < noteSpawnQueue.Count; i++)
+        {
+            noteSpawnQueue_perRail[noteSpawnQueue[i].railIdx].Add(noteSpawnQueue[i]);
+        }
+    }
+
+
     void TestSHORT()
     {
         NoteData note = new NoteData();
 
         note.railIdx = 0;
-        note.type = (int)GameNoteType.SHORT;
+        note.type = (int)NoteType.SHORT;
         note.time = 1 * bpm;
         noteSpawnQueue.Add(note);
 
         note.railIdx = 1;
-        note.type = (int)GameNoteType.SHORT;
+        note.type = (int)NoteType.SHORT;
         note.time = 2 * bpm;
         noteSpawnQueue.Add(note);
 
         note.railIdx = 2;
-        note.type = (int)GameNoteType.SHORT;
+        note.type = (int)NoteType.SHORT;
         note.time = 3 * bpm;
         noteSpawnQueue.Add(note);
 
         note.railIdx = 3;
-        note.type = (int)GameNoteType.SHORT;
+        note.type = (int)NoteType.SHORT;
         note.time = 4 * bpm;
         noteSpawnQueue.Add(note);
 
         note.railIdx = 4;
-        note.type = (int)GameNoteType.SHORT;
+        note.type = (int)NoteType.SHORT;
         note.time = 5 * bpm;
         noteSpawnQueue.Add(note);
 
         note.railIdx = 5;
-        note.type = (int)GameNoteType.SHORT;
+        note.type = (int)NoteType.SHORT;
         note.time = 6 * bpm;
         noteSpawnQueue.Add(note);
 
