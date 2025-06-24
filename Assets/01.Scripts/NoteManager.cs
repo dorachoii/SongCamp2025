@@ -30,8 +30,10 @@ public class NoteManager : MonoBehaviour
 
     void HandleJudgedNote(JudgeResult result, int railIndex)
     {
+        
         NoteInstance note = spawnedNotes_perRail[railIndex][0];
         spawnedNotes_perRail[railIndex].Remove(note);
+        print($"부서짐! {spawnedNotes_perRail[railIndex].Count}");
         Destroy(note.gameObject);
     }
 

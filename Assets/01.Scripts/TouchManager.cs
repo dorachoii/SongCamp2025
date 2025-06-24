@@ -9,44 +9,36 @@ public class TouchManager : MonoBehaviour
     public Material[] defaultMats;
     private NoteJudge noteJudge;
 
-    // Start is called before the first frame update
+    // 레일에 대응되는 키보드 키들
+    private KeyCode[] railKeys = new KeyCode[6]
+    {
+        KeyCode.S,
+        KeyCode.D,
+        KeyCode.F,
+        KeyCode.J,
+        KeyCode.K,
+        KeyCode.L
+    };
+
     void Start()
     {
         noteJudge = FindObjectOfType<NoteJudge>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // TODO: 터치 보정
-        if (Input.GetMouseButtonDown(0))
+        for (int i = 0; i < railKeys.Length; i++)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-
-            if (Physics.Raycast(ray, out hitInfo, 100f))
+            if (Input.GetKeyDown(railKeys[i]))
             {
-                GameObject hitObj = hitInfo.collider.gameObject;
-                string name = hitObj.name;
-
-                if (name.StartsWith("Touch_Box"))
-                {
-                    string numStr = name.Substring("Touch_Box".Length);
-                    if (int.TryParse(numStr, out int index))
-                    {
-                        index -= 1;
-                        rails[index].GetComponent<MeshRenderer>().material = activeMats[index];
-                        noteJudge.JudgeShortNote(index);
-                    }
-                }
-
+                // 눌렸을 때 → 색 변경 + 판정
+                rails[i].GetComponent<MeshRenderer>().material = activeMats[i];
+                noteJudge.JudgeShortNote(i);
             }
-        }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            for (int i = 0; i < rails.Length; i++)
+            if (Input.GetKeyUp(railKeys[i]))
             {
+                // 손 뗐을 때 → 색 복구
                 rails[i].GetComponent<MeshRenderer>().material = defaultMats[i];
             }
         }
