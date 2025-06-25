@@ -35,6 +35,7 @@ public class CamShake : MonoBehaviour
 
     void HandleCamShake(JudgeResult result, int railIndex)
     {
+        if(result == JudgeResult.Miss)
         StartShake(shakeDuration, shakeAmount, dampingSpeed);
     }
 

@@ -47,7 +47,7 @@ public class NoteInstance : MonoBehaviour
     public Action<int, NoteInstance, bool> autoDestroyAction;
     Transform touchpad;
 
-    public static Func<int, NoteInstance, NoteInstance> GetNextNoteInRail; // delegate injection from NoteManager
+    public static Func<int, NoteInstance, NoteInstance> GetNextNoteInRail; 
 
     void Start()
     {
