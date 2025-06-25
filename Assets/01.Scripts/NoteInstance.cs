@@ -44,6 +44,7 @@ public class NoteInstance : MonoBehaviour
     GameObject linkNote;
     bool isGrowing = false;
 
+    public static event Action<NoteInstance> OnNoteDestroyed;
     public Action<int, NoteInstance, bool> autoDestroyAction;
     Transform touchpad;
 
@@ -112,6 +113,7 @@ public class NoteInstance : MonoBehaviour
             NoteJudge.NotifyMiss(noteInfo.railIdx);
         }
 
+        OnNoteDestroyed?.Invoke(this);
         if (autoDestroyAction != null) autoDestroyAction(noteInfo.railIdx, this, isPassed);
         Destroy(gameObject);
     }

@@ -35,7 +35,7 @@ public class NoteJudge : MonoBehaviour
     }
 
 
-    public void JudgeShortNote(int railIndex)
+    public void JudgeNote(int railIndex)
     {
         if (spawnedNotes_perRail[railIndex].Count == 0) return;
         var note = spawnedNotes_perRail[railIndex][0];

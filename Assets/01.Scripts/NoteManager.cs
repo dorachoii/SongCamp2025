@@ -129,10 +129,10 @@ public class NoteManager : MonoBehaviour
     void TestDRAG()
     {
         NoteData note = new NoteData();
-        // note.railIdx = 2;
-        // note.type = (int)NoteType.DRAG_LEFT;
-        // note.time = 1 * bpm;
-        // noteSpawnQueue.Add(note);
+        note.railIdx = 2;
+        note.type = (int)NoteType.DRAG_LEFT;
+        note.time = 1 * bpm;
+        noteSpawnQueue.Add(note);
 
         note.railIdx = 3;
         note.type = (int)NoteType.DRAG_RIGHT;

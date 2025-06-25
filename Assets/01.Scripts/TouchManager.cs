@@ -40,15 +40,32 @@ public class TouchManager : MonoBehaviour
     private readonly KeyCode[] L_DragSequence = new[] { KeyCode.F, KeyCode.D, KeyCode.S };
     private const float sequenceTimeLimit = 0.2f;
 
+    private bool rightDragReady = false;
+    private bool leftDragReady = false;
+
     void Start()
     {
         noteJudge = FindObjectOfType<NoteJudge>();
     }
 
+    private void OnEnable()
+    {
+        NoteInstance.OnNoteDestroyed += HandleNoteDestroyed;
+    }
+
+    private void OnDisable()
+    {
+        NoteInstance.OnNoteDestroyed -= HandleNoteDestroyed;
+    }
+
     void Update()
     {
         HandleShortInput();
-        HandleDragInput();
+        if (rightDragReady || leftDragReady)
+        {
+            HandleDragInput();
+        }
+
     }
 
     private void HandleShortInput()
@@ -65,9 +82,17 @@ public class TouchManager : MonoBehaviour
                 var note = noteList[0];
                 NoteType type = (NoteType)note.noteInfo.type;
 
-                if (type == NoteType.SHORT)
+                switch (type)
                 {
-                    noteJudge.JudgeShortNote(i);
+                    case NoteType.SHORT:
+                        noteJudge.JudgeNote(i);
+                        break;
+                    case NoteType.DRAG_RIGHT:
+                        SetRightDragReady(true);
+                        break;
+                    case NoteType.DRAG_LEFT:
+                        SetLeftDragReady(true);
+                        break;
                 }
             }
 
@@ -80,41 +105,50 @@ public class TouchManager : MonoBehaviour
 
     private void HandleDragInput()
     {
-        foreach (var keyCode in new[] { KeyCode.J, KeyCode.K, KeyCode.L })
+        if (rightDragReady)
         {
-            if (Input.GetKeyDown(keyCode))
+            foreach (var keyCode in new[] { KeyCode.J, KeyCode.K, KeyCode.L })
             {
-                R_ringBuffer.Enqueue(new KeyInput(keyCode, Time.time));
-
-                if (R_ringBuffer.Count > 3) R_ringBuffer.Dequeue();
-
-                if (IsRingBufferMatched(R_DragSequence, sequenceTimeLimit))
+                if (Input.GetKeyDown(keyCode))
                 {
-                    R_ringBuffer.Clear();
+                    R_ringBuffer.Enqueue(new KeyInput(keyCode, Time.time));
+
+                    if (R_ringBuffer.Count > 3) R_ringBuffer.Dequeue();
+
+                    if (IsDragMatched(R_DragSequence, sequenceTimeLimit))
+                    {
+                        R_ringBuffer.Clear();
+                        noteJudge.JudgeNote(3);
+                        SetRightDragReady(false);
+                    }
                 }
             }
         }
 
-        foreach (var keyCode in new[] { KeyCode.F, KeyCode.D, KeyCode.S })
+        if (leftDragReady)
         {
-            if (Input.GetKeyDown(keyCode))
+            foreach (var keyCode in new[] { KeyCode.F, KeyCode.D, KeyCode.S })
             {
-                R_ringBuffer.Enqueue(new KeyInput(keyCode, Time.time));
-
-                if (R_ringBuffer.Count > 3) R_ringBuffer.Dequeue();
-
-                if (IsRingBufferMatched(L_DragSequence, sequenceTimeLimit))
+                if (Input.GetKeyDown(keyCode))
                 {
-                    R_ringBuffer.Clear();
-                    Debug.Log("success");
+                    R_ringBuffer.Enqueue(new KeyInput(keyCode, Time.time));
+
+                    if (R_ringBuffer.Count > 3) R_ringBuffer.Dequeue();
+
+                    if (IsDragMatched(L_DragSequence, sequenceTimeLimit))
+                    {
+                        R_ringBuffer.Clear();
+                        noteJudge.JudgeNote(2);
+                        SetLeftDragReady(false);
+                    }
                 }
             }
         }
     }
 
-    private bool IsRingBufferMatched(KeyCode[] expected, float timeLimit)
+    private bool IsDragMatched(KeyCode[] expected, float timeLimit)
     {
-        if (R_ringBuffer.Count < expected.Length)return false;
+        if (R_ringBuffer.Count < expected.Length) return false;
 
         var inputs = R_ringBuffer.ToArray();
 
@@ -128,5 +162,30 @@ public class TouchManager : MonoBehaviour
         return duration <= timeLimit;
     }
 
+
+    private void HandleNoteDestroyed(NoteInstance note)
+    {
+        switch ((NoteType)note.noteInfo.type)
+        {
+            case NoteType.DRAG_RIGHT:
+                SetRightDragReady(false);
+                break;
+            case NoteType.DRAG_LEFT:
+                SetLeftDragReady(false);
+                break;
+        }
+    }
+
+    private void SetRightDragReady(bool ready)
+    {
+        rightDragReady = ready;
+        if (!ready) R_ringBuffer.Clear();
+    }
+
+    private void SetLeftDragReady(bool ready)
+    {
+        leftDragReady = ready;
+        if (!ready) L_ringBuffer.Clear();
+    }
 
 }
