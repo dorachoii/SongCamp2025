@@ -64,8 +64,8 @@ public class NoteManager : MonoBehaviour
     void Start()
     {
         //TestSHORT();
-        TestDRAG();
-        //TestLONG();
+        //TestDRAG();
+        TestLONG();
         //SampleSong.Instance.InputTestFLOP();
 
         foreach (var note in SampleSong.Instance.allGameNoteInfo)

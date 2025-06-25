@@ -17,8 +17,8 @@ public struct NoteData
     public int type;
     public float time;
     public bool isLongNoteStart;
+
     public int DRAG_release_idx;
-    public bool isNoteEnabled;
     public byte pitch;
 
     public NoteData(int railIdx, int type, float time)
@@ -28,7 +28,6 @@ public struct NoteData
         this.time = time;
         this.isLongNoteStart = false;
         this.DRAG_release_idx = 0;
-        this.isNoteEnabled = true;
         this.pitch = 0;
     }
 }
@@ -42,7 +41,9 @@ public class NoteInstance : MonoBehaviour
     public GameObject linkNotePrefab;
 
     GameObject linkNote;
-    bool isGrowing = false;
+    bool isConnecting = false;
+    public bool isEnabled = true;
+    public bool isHolding = false;
 
     public static event Action<NoteInstance> OnNoteDestroyed;
     public Action<int, NoteInstance, bool> autoDestroyAction;
@@ -56,7 +57,7 @@ public class NoteInstance : MonoBehaviour
 
         if ((NoteType)noteInfo.type == NoteType.LONG && noteInfo.isLongNoteStart)
         {
-            StartCoroutine(GrowLinkCoroutine());
+            StartCoroutine(ConnectLinkCoroutine());
         }
     }
 
@@ -66,11 +67,13 @@ public class NoteInstance : MonoBehaviour
 
         if (transform.position.y + 3f < touchpad.position.y)
         {
+            // 여기 추가하는 거 맞지?
+            if (isHolding) return;
             autoDestroy(true);
         }
     }
 
-    IEnumerator GrowLinkCoroutine()
+    IEnumerator ConnectLinkCoroutine()
     {
         linkNote = Instantiate(linkNotePrefab, transform.position, Quaternion.identity);
 
@@ -80,11 +83,11 @@ public class NoteInstance : MonoBehaviour
         scale.y = 0;
         linkNote.transform.localScale = scale;
 
-        isGrowing = true;
+        isConnecting = true;
 
         NoteInstance endNote = null;
 
-        while (isGrowing)
+        while (isConnecting)
         {
             float growSpeed = speed * Time.deltaTime;
             linkNote.transform.localScale += new Vector3(0, growSpeed / 2.5f, 0);
@@ -99,7 +102,7 @@ public class NoteInstance : MonoBehaviour
             {
                 endNote.transform.SetParent(transform);
                 endNote.gameObject.GetComponent<NoteInstance>().enabled = false;
-                isGrowing = false;              
+                isConnecting = false;              
             }
 
             yield return null;

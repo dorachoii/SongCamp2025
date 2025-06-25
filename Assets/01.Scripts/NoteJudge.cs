@@ -35,10 +35,10 @@ public class NoteJudge : MonoBehaviour
     }
 
 
-    public void JudgeReleasingTiming(int railIndex)
+    public void JudgeReleasingTiming(int railIndex, int noteIndex = 0)
     {
         if (spawnedNotes_perRail[railIndex].Count == 0) return;
-        var note = spawnedNotes_perRail[railIndex][0];
+        var note = spawnedNotes_perRail[railIndex][noteIndex];
         if (note == null) return;
 
         float dist = note.transform.position.y - touchPad[railIndex].transform.position.y;
@@ -52,6 +52,7 @@ public class NoteJudge : MonoBehaviour
         else if (distAbs <= badZone) result = JudgeResult.Bad;
         else return;
 
+        print($"Long Note: {result}");
         OnNoteJudged?.Invoke(result, railIndex);
     }
 

@@ -60,16 +60,17 @@ public class TouchManager : MonoBehaviour
 
     void Update()
     {
-        HandleShortInput();
+        HandleNoteInput();
 
         if (rightDragReady || leftDragReady)
         {
             HandleDragInput();
         }
 
+        HandleLongInput();
     }
 
-    private void HandleShortInput()
+    private void HandleNoteInput()
     {
         for (int i = 0; i < railKeys.Length; i++)
         {
@@ -90,10 +91,10 @@ public class TouchManager : MonoBehaviour
                         break;
                     case NoteType.DRAG_RIGHT:
                         if (noteJudge.JudgeTouchedTiming(i))
-                        { 
+                        {
                             SetRightDragReady(true);
                         }
-                       
+
                         break;
                     case NoteType.DRAG_LEFT:
 
@@ -151,6 +152,44 @@ public class TouchManager : MonoBehaviour
                         SetLeftDragReady(false);
                     }
                 }
+            }
+        }
+    }
+
+    private void HandleLongInput()
+    {
+        for (int i = 0; i < railKeys.Length; i++)
+        {
+            if (Input.GetKeyDown(railKeys[i]))
+            {
+                var noteList = NoteManager.Instance.spawnedNotes_perRail[i];
+                if (noteList.Count == 0) continue;
+
+                var note = noteList[0];
+                NoteType type = (NoteType)note.noteInfo.type;
+
+                if (type == NoteType.LONG && note.noteInfo.isLongNoteStart)
+                {
+                    if (noteJudge.JudgeTouchedTiming(i))
+                    {
+                        note.GetComponent<NoteInstance>().isHolding = true;
+                    }
+                }
+            }
+
+            if (Input.GetKeyUp(railKeys[i]))
+            {
+                var noteList = NoteManager.Instance.spawnedNotes_perRail[i];
+                if (noteList.Count == 0) return;
+
+                var startNote = noteList[0];
+
+                if (startNote.GetComponent<NoteInstance>().isHolding)
+                {
+                    noteJudge.JudgeReleasingTiming(i,1);
+                    startNote.GetComponent<NoteInstance>().isHolding = false;
+                }
+
             }
         }
     }
