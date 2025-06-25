@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Melanchall.DryWetMidi.Interaction;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 생성과 파괴 담당
-public class NoteManager : MonoBehaviour
+public class NoteMaker : MonoBehaviour
 {
-    public static NoteManager Instance { get; private set; }
+    public static NoteMaker Instance { get; private set; }
 
     const int railCount = 6;
     float currTime;
@@ -34,6 +35,7 @@ public class NoteManager : MonoBehaviour
             noteSpawnQueue_perRail[i] = new List<NoteData>();
         }
 
+        // longNote위해서
         NoteInstance.GetNextNoteInRail = (railIdx, currentNote) =>
         {
             var list = spawnedNotes_perRail[railIdx];
@@ -46,11 +48,11 @@ public class NoteManager : MonoBehaviour
 
     void Start()
     {
-        TestSHORT();
+        //TestSHORT();
         //TestDRAG();
         //TestLONG();
         //TestMIX();
-        //SampleSong.Instance.InputTestFLOP();
+        SampleSong.Instance.InputTestFLOP();
 
         foreach (var note in SampleSong.Instance.allGameNoteInfo)
         {
@@ -120,7 +122,7 @@ public class NoteManager : MonoBehaviour
 
         note.railIdx = 3;
         note.type = (int)NoteType.DRAG_RIGHT;
-        note.time = 1 * bpm;
+        note.time = 3 * bpm;
         noteSpawnQueue.Add(note);
 
         for (int i = 0; i < noteSpawnQueue.Count; i++)
@@ -141,7 +143,7 @@ public class NoteManager : MonoBehaviour
 
         note.railIdx = 1;
         note.type = (int)NoteType.SHORT;
-        note.time = 2 * bpm;
+        note.time = 1 * bpm;
         noteSpawnQueue.Add(note);
 
         note.railIdx = 2;

@@ -18,6 +18,7 @@ public class NoteJudge : MonoBehaviour
     List<NoteInstance>[] spawnedNotes_perRail;
 
     public static event System.Action<JudgeResult, int> OnNoteJudged;
+    public static event System.Action<NoteInstance> OnNoteConfirmed;
 
     private readonly float badZone = 1.2f;
     private readonly float goodZone = 1f;
@@ -26,7 +27,7 @@ public class NoteJudge : MonoBehaviour
 
     private void Start()
     {
-        spawnedNotes_perRail = NoteManager.Instance.spawnedNotes_perRail;
+        spawnedNotes_perRail = NoteMaker.Instance.spawnedNotes_perRail;
     }
     // NoteJudge 클래스 내부에 추가
     public static void NotifyMiss(int railIdx)
@@ -52,8 +53,8 @@ public class NoteJudge : MonoBehaviour
         else if (distAbs <= badZone) result = JudgeResult.Bad;
         else return;
 
-        print($"Long Note: {result}");
         OnNoteJudged?.Invoke(result, railIndex);
+        OnNoteConfirmed?.Invoke(note);
     }
 
     public bool JudgeTouchedTiming(int railIndex)

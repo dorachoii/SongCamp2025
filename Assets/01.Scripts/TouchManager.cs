@@ -56,8 +56,6 @@ public class TouchManager : MonoBehaviour
         {
             HandleDragInput();
         }
-
-        HandleLongInput();
     }
 
     private void HandleNoteInput()
@@ -68,7 +66,7 @@ public class TouchManager : MonoBehaviour
             {
                 rails[i].GetComponent<MeshRenderer>().material = activeMats[i];
 
-                var noteList = NoteManager.Instance.spawnedNotes_perRail[i];
+                var noteList = NoteMaker.Instance.spawnedNotes_perRail[i];
                 if (noteList.Count == 0) continue;
 
                 var note = noteList[0];
@@ -93,12 +91,40 @@ public class TouchManager : MonoBehaviour
                             SetLeftDragReady(true);
                         }
                         break;
+                    case NoteType.LONG:
+                        if (note.noteInfo.isLongNoteStart && noteJudge.JudgeTouchedTiming(i))
+                        {
+                            note.isHolding = true;
+                        }
+                        break;
                 }
             }
 
             if (Input.GetKeyUp(railKeys[i]))
             {
                 rails[i].GetComponent<MeshRenderer>().material = defaultMats[i];
+
+                var noteList = NoteMaker.Instance.spawnedNotes_perRail[i];
+                if (noteList.Count == 0) continue;
+
+                var startNote = noteList[0];
+
+                if (startNote.noteInfo.type == (int)NoteType.LONG)
+                {
+                    if (startNote != null && startNote.isHolding)
+                    {
+                        if (noteList.Count > 1 && noteList[1] != null)
+                        {
+                            noteJudge.JudgeReleasingTiming(i, 1);
+                        }
+                        else
+                        {
+                            noteJudge.JudgeReleasingTiming(i, 0);
+                        }
+                        startNote.isHolding = false;
+                    }
+                }
+
             }
         }
     }
@@ -142,53 +168,6 @@ public class TouchManager : MonoBehaviour
                         SetLeftDragReady(false);
                     }
                 }
-            }
-        }
-    }
-
-    private void HandleLongInput()
-    {
-        for (int i = 0; i < railKeys.Length; i++)
-        {
-            if (Input.GetKeyDown(railKeys[i]))
-            {
-                var noteList = NoteManager.Instance.spawnedNotes_perRail[i];
-                if (noteList.Count == 0) continue;
-
-                var note = noteList[0];
-                NoteType type = (NoteType)note.noteInfo.type;
-
-                if (type == NoteType.LONG && note.noteInfo.isLongNoteStart)
-                {
-                    if (noteJudge.JudgeTouchedTiming(i))
-                    {
-                        note.GetComponent<NoteInstance>().isHolding = true;
-                    }
-                }
-            }
-
-            if (Input.GetKeyUp(railKeys[i]))
-            {
-                var noteList = NoteManager.Instance.spawnedNotes_perRail[i];
-                if (noteList.Count == 0) return;
-
-                var startNote = noteList[0];
-
-               
-                if (startNote == null || startNote.GetComponent<NoteInstance>() == null) return;
-                if (startNote.GetComponent<NoteInstance>().isHolding)
-                {
-                    if (noteList[1] != null)
-                    {
-                        noteJudge.JudgeReleasingTiming(i, 1);
-                    }
-                    else
-                    {
-                        noteJudge.JudgeReleasingTiming(i, 0);
-                    }
-                    startNote.GetComponent<NoteInstance>().isHolding = false;
-                }
-
             }
         }
     }

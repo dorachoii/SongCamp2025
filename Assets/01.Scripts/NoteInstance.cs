@@ -41,25 +41,24 @@ public class NoteInstance : MonoBehaviour
     public bool isEnabled = true;
     public bool isHolding = false;
 
+    public static event Action<NoteInstance> OnNoteDestroyed;
     Transform touchpad;
 
     public static Func<int, NoteInstance, NoteInstance> GetNextNoteInRail;
 
     void OnEnable()
     {
-        NoteJudge.OnNoteJudged += OnJudged;        
+        NoteJudge.OnNoteConfirmed += OnConfirmed;        
     }
 
     void OnDisable()
     {
-        NoteJudge.OnNoteJudged -= OnJudged; 
+        NoteJudge.OnNoteConfirmed -= OnConfirmed; 
     }
 
-    void OnJudged(JudgeResult result, int railIdx)
+    void OnConfirmed(NoteInstance note)
     {
-        if (railIdx != noteInfo.railIdx) return;
-
-        if (result != JudgeResult.Miss)
+        if (note == this)
         {
             autoDestroy();
         }
@@ -128,6 +127,9 @@ public class NoteInstance : MonoBehaviour
         {
             NoteJudge.NotifyMiss(noteInfo.railIdx);
         }
+
+        NoteMaker.Instance.spawnedNotes_perRail[noteInfo.railIdx].Remove(this);
+        OnNoteDestroyed?.Invoke(this);
         Destroy(gameObject);
     }
 }
