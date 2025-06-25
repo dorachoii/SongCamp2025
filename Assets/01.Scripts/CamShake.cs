@@ -24,14 +24,18 @@ public class CamShake : MonoBehaviour
     {
         // 揺れ終了後に戻す位置を記録（OnEnable : 再有効化時にも対応）
         originalPos = transform.localPosition;
+
+        NoteJudge.OnNoteJudged += HandleCamShake;
     }
 
-    void Update()
+    void OnDisable()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            StartShake(shakeDuration, shakeAmount, dampingSpeed);
-        }
+        NoteJudge.OnNoteJudged -= HandleCamShake;
+    }
+
+    void HandleCamShake(JudgeResult result, int railIndex)
+    {
+        StartShake(shakeDuration, shakeAmount, dampingSpeed);
     }
 
     // duration中、毎フレームランダムに位置を変化

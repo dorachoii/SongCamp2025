@@ -10,13 +10,13 @@ public class NoteManager : MonoBehaviour
 
     const int railCount = 6;
     float currTime;
-    int bpm = 60;
+    int bpm = 70;
 
     public GameObject[] notePrefabs;
     public List<Transform> spawnRails;
 
-    private List<NoteData> noteSpawnQueue = new List<NoteData>();
-    private List<NoteData>[] noteSpawnQueue_perRail = new List<NoteData>[railCount];
+    public List<NoteData> noteSpawnQueue = new List<NoteData>();
+    public List<NoteData>[] noteSpawnQueue_perRail = new List<NoteData>[railCount];
     public List<NoteInstance>[] spawnedNotes_perRail = new List<NoteInstance>[railCount];
 
     void OnEnable()
@@ -65,7 +65,14 @@ public class NoteManager : MonoBehaviour
     {
         //TestSHORT();
         //TestDRAG();
-        TestLONG();
+        //TestLONG();
+        SampleSong.Instance.InputTestFLOP();
+
+        foreach (var note in SampleSong.Instance.allGameNoteInfo)
+    {
+        noteSpawnQueue.Add(note);
+        noteSpawnQueue_perRail[note.railIdx].Add(note);
+    }
     }
 
 

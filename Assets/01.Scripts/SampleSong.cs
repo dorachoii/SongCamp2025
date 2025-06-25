@@ -4,13 +4,35 @@ using UnityEngine;
 
 public class SampleSong : MonoBehaviour
 {
+    public static SampleSong Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+
+        // 레일별 리스트 초기화
+        for (int i = 0; i < railCount; i++)
+        {
+            gameNoteInfo_Rails[i] = new List<NoteData>();
+        }
+    }
+
+
     public List<NoteData> allGameNoteInfo = new List<NoteData>();
     public List<NoteData>[] gameNoteInfo_Rails = new List<NoteData>[railCount];
     const int railCount = 6;
     
     //05. FLOP test
     #region FLOP
-    void InputTestFLOP()
+    public void InputTestFLOP()
     {
         NoteData info = new NoteData();
 

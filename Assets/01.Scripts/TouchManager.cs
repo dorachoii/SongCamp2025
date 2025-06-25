@@ -31,9 +31,27 @@ public class TouchManager : MonoBehaviour
         {
             if (Input.GetKeyDown(railKeys[i]))
             {
-                // 눌렸을 때 → 색 변경 + 판정
+                // 눌렸을 때 → 색 변경
                 rails[i].GetComponent<MeshRenderer>().material = activeMats[i];
-                noteJudge.JudgeShortNote(i);
+
+                var noteList = NoteManager.Instance.spawnedNotes_perRail[i];
+                if (noteList.Count == 0) continue;
+
+                var note = noteList[0];
+                NoteType type = (NoteType)note.noteInfo.type;
+
+                if (type == NoteType.SHORT)
+                {
+                    noteJudge.JudgeShortNote(i);
+                }
+                else if (type == NoteType.DRAG_RIGHT)
+                {
+                    noteJudge.JudgeDragNote(true);
+                }
+                else if (type == NoteType.DRAG_LEFT)
+                {
+                    noteJudge.JudgeDragNote(false);
+                }
             }
 
             if (Input.GetKeyUp(railKeys[i]))

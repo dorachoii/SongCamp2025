@@ -19,6 +19,7 @@ public class ScoreManager : MonoBehaviour
 
     private Dictionary<JudgeResult, int> judgeScores = new Dictionary<JudgeResult, int>
     {
+        { JudgeResult.Miss , 0},
         { JudgeResult.Bad, 100 },
         { JudgeResult.Good, 300 },
         { JudgeResult.Great, 600 },

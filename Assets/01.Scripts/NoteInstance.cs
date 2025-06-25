@@ -107,6 +107,11 @@ public class NoteInstance : MonoBehaviour
 
     public void autoDestroy(bool isPassed = false)
     {
+        if (isPassed)
+        {
+            NoteJudge.NotifyMiss(noteInfo.railIdx);
+        }
+
         if (autoDestroyAction != null) autoDestroyAction(noteInfo.railIdx, this, isPassed);
         Destroy(gameObject);
     }
