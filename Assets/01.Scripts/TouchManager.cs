@@ -61,6 +61,7 @@ public class TouchManager : MonoBehaviour
     void Update()
     {
         HandleShortInput();
+
         if (rightDragReady || leftDragReady)
         {
             HandleDragInput();
@@ -85,13 +86,21 @@ public class TouchManager : MonoBehaviour
                 switch (type)
                 {
                     case NoteType.SHORT:
-                        noteJudge.JudgeNote(i);
+                        noteJudge.JudgeReleasingTiming(i);
                         break;
                     case NoteType.DRAG_RIGHT:
-                        SetRightDragReady(true);
+                        if (noteJudge.JudgeTouchedTiming(i))
+                        { 
+                            SetRightDragReady(true);
+                        }
+                       
                         break;
                     case NoteType.DRAG_LEFT:
-                        SetLeftDragReady(true);
+
+                        if (noteJudge.JudgeTouchedTiming(i))
+                        {
+                            SetLeftDragReady(true);
+                        }
                         break;
                 }
             }
@@ -118,7 +127,7 @@ public class TouchManager : MonoBehaviour
                     if (IsDragMatched(R_DragSequence, sequenceTimeLimit))
                     {
                         R_ringBuffer.Clear();
-                        noteJudge.JudgeNote(3);
+                        noteJudge.JudgeReleasingTiming(3);
                         SetRightDragReady(false);
                     }
                 }
@@ -138,7 +147,7 @@ public class TouchManager : MonoBehaviour
                     if (IsDragMatched(L_DragSequence, sequenceTimeLimit))
                     {
                         R_ringBuffer.Clear();
-                        noteJudge.JudgeNote(2);
+                        noteJudge.JudgeReleasingTiming(2);
                         SetLeftDragReady(false);
                     }
                 }

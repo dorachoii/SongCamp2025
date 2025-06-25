@@ -35,7 +35,7 @@ public class NoteJudge : MonoBehaviour
     }
 
 
-    public void JudgeNote(int railIndex)
+    public void JudgeReleasingTiming(int railIndex)
     {
         if (spawnedNotes_perRail[railIndex].Count == 0) return;
         var note = spawnedNotes_perRail[railIndex][0];
@@ -55,9 +55,16 @@ public class NoteJudge : MonoBehaviour
         OnNoteJudged?.Invoke(result, railIndex);
     }
 
-    private int dragStep = 0;
-    private float dragStartTime = -1f;
+    public bool JudgeTouchedTiming(int railIndex)
+    {
+        if (spawnedNotes_perRail[railIndex].Count == 0) return false;
 
-    
+        var note = spawnedNotes_perRail[railIndex][0];
+        if (note == null) return false;
 
+        float dist = note.transform.position.y - touchPad[railIndex].transform.position.y;
+        float distAbs = Mathf.Abs(dist);
+
+        return distAbs <= badZone; 
+    }
 }
