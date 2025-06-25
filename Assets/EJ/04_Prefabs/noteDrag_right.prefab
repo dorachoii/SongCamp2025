@@ -263,10 +263,11 @@ MonoBehaviour:
     type: 0
     time: 0
     isLongNoteStart: 0
-    DRAG_release_idx: 0
-    isNoteEnabled: 0
     pitch: 0
   linkNotePrefab: {fileID: 1214568008692601059, guid: 94aeddc9a4223f542bd49f314b4dc725, type: 3}
+  hitEffectPrefab: {fileID: 6171530767699314402, guid: 1a8d3915c82eb7a49b42501a6a6f5117, type: 3}
+  isEnabled: 1
+  isHolding: 0
 --- !u!1 &5119678665372983874
 GameObject:
   m_ObjectHideFlags: 0

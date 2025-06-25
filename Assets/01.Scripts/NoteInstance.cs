@@ -17,8 +17,6 @@ public struct NoteData
     public int type;
     public float time;
     public bool isLongNoteStart;
-
-    public int DRAG_release_idx;
     public byte pitch;
 
     public NoteData(int railIdx, int type, float time)
@@ -27,7 +25,6 @@ public struct NoteData
         this.type = type;
         this.time = time;
         this.isLongNoteStart = false;
-        this.DRAG_release_idx = 0;
         this.pitch = 0;
     }
 }
@@ -39,17 +36,34 @@ public class NoteInstance : MonoBehaviour
 
     public NoteData noteInfo;
     public GameObject linkNotePrefab;
-
     GameObject linkNote;
     bool isConnecting = false;
     public bool isEnabled = true;
     public bool isHolding = false;
 
-    public static event Action<NoteInstance> OnNoteDestroyed;
-    public Action<int, NoteInstance, bool> autoDestroyAction;
     Transform touchpad;
 
-    public static Func<int, NoteInstance, NoteInstance> GetNextNoteInRail; 
+    public static Func<int, NoteInstance, NoteInstance> GetNextNoteInRail;
+
+    void OnEnable()
+    {
+        NoteJudge.OnNoteJudged += OnJudged;        
+    }
+
+    void OnDisable()
+    {
+        NoteJudge.OnNoteJudged -= OnJudged; 
+    }
+
+    void OnJudged(JudgeResult result, int railIdx)
+    {
+        if (railIdx != noteInfo.railIdx) return;
+
+        if (result != JudgeResult.Miss)
+        {
+            autoDestroy();
+        }
+    }
 
     void Start()
     {
@@ -67,7 +81,6 @@ public class NoteInstance : MonoBehaviour
 
         if (transform.position.y + 3f < touchpad.position.y)
         {
-            // 여기 추가하는 거 맞지?
             if (isHolding) return;
             autoDestroy(true);
         }
@@ -95,14 +108,14 @@ public class NoteInstance : MonoBehaviour
             if (endNote == null && GetNextNoteInRail != null)
             {
                 endNote = GetNextNoteInRail(noteInfo.railIdx, this);
-                
+
             }
 
             if (endNote != null)
             {
                 endNote.transform.SetParent(transform);
                 endNote.gameObject.GetComponent<NoteInstance>().enabled = false;
-                isConnecting = false;              
+                isConnecting = false;
             }
 
             yield return null;
@@ -115,9 +128,6 @@ public class NoteInstance : MonoBehaviour
         {
             NoteJudge.NotifyMiss(noteInfo.railIdx);
         }
-
-        OnNoteDestroyed?.Invoke(this);
-        if (autoDestroyAction != null) autoDestroyAction(noteInfo.railIdx, this, isPassed);
         Destroy(gameObject);
     }
 }

@@ -19,24 +19,6 @@ public class NoteManager : MonoBehaviour
     public List<NoteData>[] noteSpawnQueue_perRail = new List<NoteData>[railCount];
     public List<NoteInstance>[] spawnedNotes_perRail = new List<NoteInstance>[railCount];
 
-    void OnEnable()
-    {
-        NoteJudge.OnNoteJudged += HandleJudgedNote;
-    }
-
-    void OnDisable()
-    {
-        NoteJudge.OnNoteJudged -= HandleJudgedNote;
-    }
-
-    void HandleJudgedNote(JudgeResult result, int railIndex)
-    {
-        
-        NoteInstance note = spawnedNotes_perRail[railIndex][0];
-        spawnedNotes_perRail[railIndex].Remove(note);
-        print($"부서짐! {spawnedNotes_perRail[railIndex].Count}");
-        Destroy(note.gameObject);
-    }
 
     void Awake()
     {
@@ -52,7 +34,8 @@ public class NoteManager : MonoBehaviour
             noteSpawnQueue_perRail[i] = new List<NoteData>();
         }
 
-            NoteInstance.GetNextNoteInRail = (railIdx, currentNote) => {
+        NoteInstance.GetNextNoteInRail = (railIdx, currentNote) =>
+        {
             var list = spawnedNotes_perRail[railIdx];
             int idx = list.IndexOf(currentNote);
             if (idx >= 0 && idx + 1 < list.Count)
@@ -63,16 +46,17 @@ public class NoteManager : MonoBehaviour
 
     void Start()
     {
-        //TestSHORT();
+        TestSHORT();
         //TestDRAG();
-        TestLONG();
+        //TestLONG();
+        //TestMIX();
         //SampleSong.Instance.InputTestFLOP();
 
         foreach (var note in SampleSong.Instance.allGameNoteInfo)
-    {
-        noteSpawnQueue.Add(note);
-        noteSpawnQueue_perRail[note.railIdx].Add(note);
-    }
+        {
+            noteSpawnQueue.Add(note);
+            noteSpawnQueue_perRail[note.railIdx].Add(note);
+        }
     }
 
 
@@ -138,7 +122,7 @@ public class NoteManager : MonoBehaviour
         note.type = (int)NoteType.DRAG_RIGHT;
         note.time = 1 * bpm;
         noteSpawnQueue.Add(note);
-        
+
         for (int i = 0; i < noteSpawnQueue.Count; i++)
         {
             noteSpawnQueue_perRail[noteSpawnQueue[i].railIdx].Add(noteSpawnQueue[i]);
@@ -178,6 +162,67 @@ public class NoteManager : MonoBehaviour
         note.railIdx = 5;
         note.type = (int)NoteType.SHORT;
         note.time = 6 * bpm;
+        noteSpawnQueue.Add(note);
+
+        for (int i = 0; i < noteSpawnQueue.Count; i++)
+        {
+            noteSpawnQueue_perRail[noteSpawnQueue[i].railIdx].Add(noteSpawnQueue[i]);
+        }
+    }
+    
+    void TestMIX()
+    {
+        NoteData note = new NoteData();
+        note.railIdx = 3;
+        note.type = (int)NoteType.LONG;
+        note.time = 1 * bpm;
+        note.isLongNoteStart = true;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 3;
+        note.type = (int)NoteType.LONG;
+        note.time = 3 * bpm;
+        note.isLongNoteStart = false;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 0;
+        note.type = (int)NoteType.SHORT;
+        note.time = 6 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 1;
+        note.type = (int)NoteType.SHORT;
+        note.time = 7 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 2;
+        note.type = (int)NoteType.SHORT;
+        note.time = 8 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 3;
+        note.type = (int)NoteType.SHORT;
+        note.time = 9 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 4;
+        note.type = (int)NoteType.SHORT;
+        note.time = 10 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 5;
+        note.type = (int)NoteType.SHORT;
+        note.time = 11 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 2;
+        note.type = (int)NoteType.DRAG_LEFT;
+        note.time = 15 * bpm;
+        noteSpawnQueue.Add(note);
+
+        note.railIdx = 3;
+        note.type = (int)NoteType.DRAG_RIGHT;
+        note.time = 15 * bpm;
         noteSpawnQueue.Add(note);
 
         for (int i = 0; i < noteSpawnQueue.Count; i++)

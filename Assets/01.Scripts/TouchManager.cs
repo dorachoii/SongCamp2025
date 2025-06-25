@@ -48,16 +48,6 @@ public class TouchManager : MonoBehaviour
         noteJudge = FindObjectOfType<NoteJudge>();
     }
 
-    private void OnEnable()
-    {
-        NoteInstance.OnNoteDestroyed += HandleNoteDestroyed;
-    }
-
-    private void OnDisable()
-    {
-        NoteInstance.OnNoteDestroyed -= HandleNoteDestroyed;
-    }
-
     void Update()
     {
         HandleNoteInput();
@@ -184,9 +174,18 @@ public class TouchManager : MonoBehaviour
 
                 var startNote = noteList[0];
 
+               
+                if (startNote == null || startNote.GetComponent<NoteInstance>() == null) return;
                 if (startNote.GetComponent<NoteInstance>().isHolding)
                 {
-                    noteJudge.JudgeReleasingTiming(i,1);
+                    if (noteList[1] != null)
+                    {
+                        noteJudge.JudgeReleasingTiming(i, 1);
+                    }
+                    else
+                    {
+                        noteJudge.JudgeReleasingTiming(i, 0);
+                    }
                     startNote.GetComponent<NoteInstance>().isHolding = false;
                 }
 
@@ -211,18 +210,7 @@ public class TouchManager : MonoBehaviour
     }
 
 
-    private void HandleNoteDestroyed(NoteInstance note)
-    {
-        switch ((NoteType)note.noteInfo.type)
-        {
-            case NoteType.DRAG_RIGHT:
-                SetRightDragReady(false);
-                break;
-            case NoteType.DRAG_LEFT:
-                SetLeftDragReady(false);
-                break;
-        }
-    }
+
 
     private void SetRightDragReady(bool ready)
     {
