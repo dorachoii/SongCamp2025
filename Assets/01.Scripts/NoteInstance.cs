@@ -10,15 +10,6 @@ public enum NoteType
     DRAG_LEFT,
 }
 
-// startNote생성 되면 noteInstance에서 Connect실행해서 startNote의 자식으로 link와 end가 들어간다.
-// startNote위치 기준으로 JudgeTouchedTiming이 실행된다.
-//- badZone안으로 들어오면 isHolding이 true가 된다. 그리고 뗀 시점을 체크한다 JudgeReleasingTiming
-//- badZone안일때 터치하지않으면 isHolding이 false인 상태고 disabled된다.
-// longNote일때는 endNote가 touchpad를 지나면 사라진다.
-// 도중에 떼지면 disabled가 된다.
-
-
-
 [System.Serializable]
 public struct NoteData
 {
@@ -48,7 +39,11 @@ public class NoteInstance : MonoBehaviour
     public Material disabledMat;
 
     GameObject linkNote;
+    public NoteInstance linkedEndNote;
+
+
     bool isConnecting = false;
+    public bool isJudged = false;
     public bool isEnabled = true;
     public bool isHolding = false;
 
@@ -70,7 +65,13 @@ public class NoteInstance : MonoBehaviour
     {
         if (data.noteInstance == this)
         {
-                autoDestroy();
+            autoDestroy();
+        }
+
+        if (data.noteInstance == linkedEndNote)
+        {
+            isJudged = true;
+            autoDestroy();
         }
     }
 
@@ -88,13 +89,47 @@ public class NoteInstance : MonoBehaviour
     {
         transform.position += Vector3.down * Time.deltaTime * speed;
 
-        if (transform.position.y + 3f < touchpad.position.y)
+        if ((NoteType)noteInfo.type == NoteType.LONG && noteInfo.isLongNoteStart && linkedEndNote != null)
         {
-            if (isHolding) return;
+            if (linkedEndNote.transform.position.y + 3f < touchpad.position.y)
+            {
+                if (!isHolding)
+                {
+                    if (!isEnabled)
+                    {
+                        autoDestroy(false);
+                    }
+                    else
+                    {
+                       autoDestroy(true); 
+                    }
+                }
+                else
+                {
+                    //holding인 상태로 지나갔다면 excellent
+                    NoteJudge.NotifyPassed(this);
+                }
+            }
 
-            autoDestroy(true);
+            if (this.transform.position.y + 3f < touchpad.position.y)
+            {
+                if (!isHolding && !isJudged)
+                {
+                    print("isHolding아니고 isJudged아니라서 setDisableVisual");
+                    SetDisableVisual();
+                }
+            }
+        }
+        else
+        {
+            if (transform.position.y + 3f < touchpad.position.y)
+            {
+                if (!isHolding)
+                    autoDestroy(true);
+            }
         }
     }
+
 
     IEnumerator ConnectLinkCoroutine()
     {
@@ -124,6 +159,8 @@ public class NoteInstance : MonoBehaviour
             {
                 endNote.transform.SetParent(transform);
                 endNote.gameObject.GetComponent<NoteInstance>().enabled = false;
+
+                this.linkedEndNote = endNote;
                 isConnecting = false;
             }
             yield return null;

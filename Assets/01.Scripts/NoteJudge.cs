@@ -51,6 +51,12 @@ public class NoteJudge : MonoBehaviour
         OnNoteJudged?.Invoke(data);
     }
 
+    public static void NotifyPassed(NoteInstance note)
+    {
+        var data = new NoteJudgedEventData(JudgeResult.Great, note.noteInfo.railIdx, (NoteType)note.noteInfo.type, note);
+        OnNoteJudged?.Invoke(data);
+    }
+
     public void JudgeReleasingTiming(int railIndex, int noteIndex = 0)
     {
         if (spawnedNotes_perRail[railIndex].Count == 0) return;
@@ -72,12 +78,16 @@ public class NoteJudge : MonoBehaviour
             {
                 note.isEnabled = false;
                 note.SetDisableVisual();
+
+                var long_data = new NoteJudgedEventData(JudgeResult.Miss, railIndex, (NoteType)note.noteInfo.type, note);
+                OnNoteJudged?.Invoke(long_data);
+               
             }
             return;
         }
-
         var data = new NoteJudgedEventData(result, railIndex, (NoteType)note.noteInfo.type, note);
         OnNoteJudged?.Invoke(data);
+        
     }
 
     public bool JudgeTouchedTiming(int railIndex)

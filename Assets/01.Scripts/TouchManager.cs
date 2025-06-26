@@ -130,7 +130,7 @@ public class TouchManager : MonoBehaviour
                     {
                         if (noteList.Count > 1 && noteList[1] != null)
                         {
-                            noteJudge.JudgeReleasingTiming(i, 1);
+                            noteJudge.JudgeReleasingTiming(i, noteList.IndexOf(startNote.linkedEndNote));
                         }
                         else
                         {
