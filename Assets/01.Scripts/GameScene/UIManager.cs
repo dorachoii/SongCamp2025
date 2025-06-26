@@ -12,10 +12,22 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI finalComboText;
     public TextMeshProUGUI finalGradeText;
 
+    public CountdownController countdownController;
+
+    public Canvas showTutorial;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
+
+    void Start()
+    {
+        countdownController.OnCountdownComplete += () =>
+        {
+            CloseTutorial();
+        };
     }
 
     public void ShowResultUI()
@@ -29,5 +41,10 @@ public class UIManager : MonoBehaviour
         finalScoreText.text = $"Score Rate: {(scoreRatio * 100f):F1}%";
         finalComboText.text = $"Max Combo: {maxCombo}";
         finalGradeText.text = $"Grade: {grade}";
+    }
+
+    public void CloseTutorial()
+    {
+        showTutorial.gameObject.SetActive(false);
     }
 }

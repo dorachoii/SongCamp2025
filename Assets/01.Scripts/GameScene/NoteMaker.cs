@@ -20,6 +20,8 @@ public class NoteMaker : MonoBehaviour
     public List<NoteData>[] noteSpawnQueue_perRail = new List<NoteData>[railCount];
     public List<NoteInstance>[] spawnedNotes_perRail = new List<NoteInstance>[railCount];
 
+    public CountdownController countdownController;  // 인스펙터에서 연결
+    private bool isPlaying = false;  // ✅
 
     void Awake()
     {
@@ -48,6 +50,14 @@ public class NoteMaker : MonoBehaviour
 
     void Start()
     {
+        countdownController.OnCountdownComplete += () =>
+        {
+            isPlaying = true;
+            currTime = 0f; // ⏱️ 카운트다운 이후부터 시간 측정
+        };
+
+        countdownController.StartCountdown();
+
         //TestSHORT();
         //TestDRAG();
         //TestLONG();
@@ -64,6 +74,8 @@ public class NoteMaker : MonoBehaviour
 
     void Update()
     {
+        if (!isPlaying) return;
+        
         currTime += Time.deltaTime;
 
         for (int i = 0; i < noteSpawnQueue_perRail.Length; i++)
