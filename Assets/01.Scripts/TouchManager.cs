@@ -215,16 +215,36 @@ public class TouchManager : MonoBehaviour
         if (!ready) L_ringBuffer.Clear();
     }
 
-    private void HandleTouchEffect(JudgeResult result, int railIdx, NoteType note)
+    private void HandleTouchEffect(JudgeResult result, int railIdx, NoteType type)
     {
         if (result == JudgeResult.Miss) return;
-        touchPads[railIdx].SetActive(true);
-        StartCoroutine(DisableEffectAfterDelay(touchPads[railIdx], 0.3f));
+        
+        switch (type)
+        {
+            case NoteType.SHORT:
+                StartCoroutine(PlayTouchFX(railIdx, 0.3f));
+                break;
+            case NoteType.LONG:
+
+            // TODO: 뗐을 때가 아니라 눌릴 때 이펙트가 들어가는 게 맞을듯..
+            case NoteType.DRAG_RIGHT:
+                StartCoroutine(PlayTouchFX(railIdx, 0.3f, 0));
+                StartCoroutine(PlayTouchFX(railIdx + 1, 0.3f, 0.05f));
+                StartCoroutine(PlayTouchFX(railIdx + 2, 0.3f, 0.1f));
+                break;
+            case NoteType.DRAG_LEFT:
+                StartCoroutine(PlayTouchFX(railIdx, 0.3f, 0));
+                StartCoroutine(PlayTouchFX(railIdx - 1, 0.3f, 0.05f));
+                StartCoroutine(PlayTouchFX(railIdx - 2, 0.3f, 0.1f));
+                break;
+        }
     }
 
-    private IEnumerator DisableEffectAfterDelay(GameObject effectObject, float delay)
+    private IEnumerator PlayTouchFX(int railIdx, float delay, float start = 0)
     {
+        yield return new WaitForSeconds(start);
+        touchPads[railIdx].SetActive(true);
         yield return new WaitForSeconds(delay);
-        effectObject.SetActive(false);
+        touchPads[railIdx].SetActive(false);
     }
 }

@@ -48,8 +48,8 @@ public class NoteMaker : MonoBehaviour
 
     void Start()
     {
-        TestSHORT();
-        //TestDRAG();
+        //TestSHORT();
+        TestDRAG();
         //TestLONG();
         //TestMIX();
         //SampleSong.Instance.InputTestFLOP();
