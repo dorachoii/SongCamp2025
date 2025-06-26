@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LinkNotes
       objectReference: {fileID: 0}
+    - target: {fileID: 8255369310840495752, guid: 1de9a0375926cf84d9c831957b6d1975, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: da8baaeb31ab32a4bb2ad6453047bbe6, type: 2}
     - target: {fileID: 8771485931401063833, guid: 1de9a0375926cf84d9c831957b6d1975, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

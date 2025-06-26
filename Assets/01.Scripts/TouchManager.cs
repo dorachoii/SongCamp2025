@@ -93,6 +93,7 @@ public class TouchManager : MonoBehaviour
                         if (noteJudge.JudgeTouchedTiming(i))
                         {
                             SetRightDragReady(true);
+                            StartCoroutine(PlayTouchFX(i, 0.3f));
                         }
 
                         break;
@@ -101,12 +102,14 @@ public class TouchManager : MonoBehaviour
                         if (noteJudge.JudgeTouchedTiming(i))
                         {
                             SetLeftDragReady(true);
+                            StartCoroutine(PlayTouchFX(i, 0.3f));
                         }
                         break;
                     case NoteType.LONG:
                         if (note.noteInfo.isLongNoteStart && noteJudge.JudgeTouchedTiming(i))
                         {
                             note.isHolding = true;
+                            StartCoroutine(PlayTouchFX(i, 0.3f));
                         }
                         break;
                 }
@@ -200,9 +203,6 @@ public class TouchManager : MonoBehaviour
         return duration <= timeLimit;
     }
 
-
-
-
     private void SetRightDragReady(bool ready)
     {
         rightDragReady = ready;
@@ -215,27 +215,24 @@ public class TouchManager : MonoBehaviour
         if (!ready) L_ringBuffer.Clear();
     }
 
-    private void HandleTouchEffect(JudgeResult result, int railIdx, NoteType type)
+    private void HandleTouchEffect(NoteJudgedEventData data)
     {
-        if (result == JudgeResult.Miss) return;
+        if (data.result == JudgeResult.Miss) return;
         
-        switch (type)
+        switch (data.noteType)
         {
             case NoteType.SHORT:
-                StartCoroutine(PlayTouchFX(railIdx, 0.3f));
-                break;
             case NoteType.LONG:
-
+                StartCoroutine(PlayTouchFX(data.railIndex, 0.3f));
+                break;
             // TODO: 뗐을 때가 아니라 눌릴 때 이펙트가 들어가는 게 맞을듯..
             case NoteType.DRAG_RIGHT:
-                StartCoroutine(PlayTouchFX(railIdx, 0.3f, 0));
-                StartCoroutine(PlayTouchFX(railIdx + 1, 0.3f, 0.05f));
-                StartCoroutine(PlayTouchFX(railIdx + 2, 0.3f, 0.1f));
+                StartCoroutine(PlayTouchFX(data.railIndex + 1, 0.3f, 0.05f));
+                StartCoroutine(PlayTouchFX(data.railIndex + 2, 0.3f, 0.1f));
                 break;
             case NoteType.DRAG_LEFT:
-                StartCoroutine(PlayTouchFX(railIdx, 0.3f, 0));
-                StartCoroutine(PlayTouchFX(railIdx - 1, 0.3f, 0.05f));
-                StartCoroutine(PlayTouchFX(railIdx - 2, 0.3f, 0.1f));
+                StartCoroutine(PlayTouchFX(data.railIndex - 1, 0.3f, 0.05f));
+                StartCoroutine(PlayTouchFX(data.railIndex - 2, 0.3f, 0.1f));
                 break;
         }
     }

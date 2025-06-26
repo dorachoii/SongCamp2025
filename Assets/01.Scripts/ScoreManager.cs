@@ -66,10 +66,10 @@ public class ScoreManager : MonoBehaviour
         if (comboText != null) comboText.text = "";
     }
 
-    private void HandleNoteJudged(JudgeResult result, int railIdx, NoteType noteType)
+    private void HandleNoteJudged(NoteJudgedEventData data)
     {
-        if (!baseJudgeScores.TryGetValue(result, out int baseScore) ||
-            !noteTypeMultiplier.TryGetValue(noteType, out float multiplier))
+        if (!baseJudgeScores.TryGetValue(data.result, out int baseScore) ||
+            !noteTypeMultiplier.TryGetValue(data.noteType, out float multiplier))
             return;
 
         int finalScore = Mathf.RoundToInt(baseScore * multiplier);
@@ -77,7 +77,7 @@ public class ScoreManager : MonoBehaviour
         scoreSlider.value = score;
         numScore.text = "Score : " + score;
 
-        if (result == JudgeResult.Miss)
+        if (data.result == JudgeResult.Miss)
         {
             combo = 0;
             if (comboDisplayCoroutine != null)
@@ -100,7 +100,7 @@ public class ScoreManager : MonoBehaviour
             }
         }
 
-        StartShowScoreText(result.ToString(), railIdx, finalScore);
+        StartShowScoreText(data.result.ToString(), data.railIndex, finalScore);
         UpdateGrade();
     }
 

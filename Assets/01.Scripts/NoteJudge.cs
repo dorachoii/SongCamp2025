@@ -12,13 +12,28 @@ public enum JudgeResult
     Excellent
 }
 
+public struct NoteJudgedEventData
+{
+    public JudgeResult result;
+    public int railIndex;
+    public NoteType noteType;
+    public NoteInstance noteInstance;
+
+    public NoteJudgedEventData(JudgeResult result, int railIndex, NoteType noteType, NoteInstance noteInstance)
+    {
+        this.result = result;
+        this.railIndex = railIndex;
+        this.noteType = noteType;
+        this.noteInstance = noteInstance;
+    }
+}
+
 public class NoteJudge : MonoBehaviour
 {
     public GameObject[] touchPad;
     List<NoteInstance>[] spawnedNotes_perRail;
 
-    public static event System.Action<JudgeResult, int, NoteType> OnNoteJudged;
-    public static event System.Action<NoteInstance> OnNoteConfirmed;
+    public static event System.Action<NoteJudgedEventData> OnNoteJudged;
 
     private readonly float badZone = 1.2f;
     private readonly float goodZone = 1f;
@@ -32,7 +47,8 @@ public class NoteJudge : MonoBehaviour
     // NoteJudge 클래스 내부에 추가
     public static void NotifyMiss(NoteInstance note)
     {
-        OnNoteJudged?.Invoke(JudgeResult.Miss, note.noteInfo.railIdx, (NoteType)note.noteInfo.type);
+        var data = new NoteJudgedEventData(JudgeResult.Miss, note.noteInfo.railIdx, (NoteType)note.noteInfo.type, note);
+        OnNoteJudged?.Invoke(data);
     }
 
     public void JudgeReleasingTiming(int railIndex, int noteIndex = 0)
@@ -50,10 +66,18 @@ public class NoteJudge : MonoBehaviour
         else if (distAbs <= greatZone) result = JudgeResult.Great;
         else if (distAbs <= goodZone) result = JudgeResult.Good;
         else if (distAbs <= badZone) result = JudgeResult.Bad;
-        else return;
+        else
+        {
+            if (note.noteInfo.type == (int)NoteType.LONG)
+            {
+                note.isEnabled = false;
+                note.SetDisableVisual();
+            }
+            return;
+        }
 
-        OnNoteJudged?.Invoke(result, railIndex, (NoteType)note.noteInfo.type);
-        OnNoteConfirmed?.Invoke(note);
+        var data = new NoteJudgedEventData(result, railIndex, (NoteType)note.noteInfo.type, note);
+        OnNoteJudged?.Invoke(data);
     }
 
     public bool JudgeTouchedTiming(int railIndex)
@@ -66,6 +90,6 @@ public class NoteJudge : MonoBehaviour
         float dist = note.transform.position.y - touchPad[railIndex].transform.position.y;
         float distAbs = Mathf.Abs(dist);
 
-        return distAbs <= badZone; 
+        return distAbs <= badZone;
     }
 }

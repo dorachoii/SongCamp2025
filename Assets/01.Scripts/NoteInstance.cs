@@ -10,6 +10,15 @@ public enum NoteType
     DRAG_LEFT,
 }
 
+// startNote생성 되면 noteInstance에서 Connect실행해서 startNote의 자식으로 link와 end가 들어간다.
+// startNote위치 기준으로 JudgeTouchedTiming이 실행된다.
+//- badZone안으로 들어오면 isHolding이 true가 된다. 그리고 뗀 시점을 체크한다 JudgeReleasingTiming
+//- badZone안일때 터치하지않으면 isHolding이 false인 상태고 disabled된다.
+// longNote일때는 endNote가 touchpad를 지나면 사라진다.
+// 도중에 떼지면 disabled가 된다.
+
+
+
 [System.Serializable]
 public struct NoteData
 {
@@ -36,31 +45,32 @@ public class NoteInstance : MonoBehaviour
 
     public NoteData noteInfo;
     public GameObject linkNotePrefab;
+    public Material disabledMat;
+
     GameObject linkNote;
     bool isConnecting = false;
     public bool isEnabled = true;
     public bool isHolding = false;
 
-    public static event Action<NoteInstance> OnNoteDestroyed;
     Transform touchpad;
 
     public static Func<int, NoteInstance, NoteInstance> GetNextNoteInRail;
 
     void OnEnable()
     {
-        NoteJudge.OnNoteConfirmed += OnConfirmed;        
+        NoteJudge.OnNoteJudged += OnConfirmed;
     }
 
     void OnDisable()
     {
-        NoteJudge.OnNoteConfirmed -= OnConfirmed; 
+        NoteJudge.OnNoteJudged -= OnConfirmed;
     }
 
-    void OnConfirmed(NoteInstance note)
+    void OnConfirmed(NoteJudgedEventData data)
     {
-        if (note == this)
+        if (data.noteInstance == this)
         {
-            autoDestroy();
+                autoDestroy();
         }
     }
 
@@ -81,6 +91,7 @@ public class NoteInstance : MonoBehaviour
         if (transform.position.y + 3f < touchpad.position.y)
         {
             if (isHolding) return;
+
             autoDestroy(true);
         }
     }
@@ -102,12 +113,11 @@ public class NoteInstance : MonoBehaviour
         while (isConnecting)
         {
             float growSpeed = speed * Time.deltaTime;
-            linkNote.transform.localScale += new Vector3(0, growSpeed / 2.5f, 0);
+            linkNote.transform.localScale += new Vector3(0, growSpeed / 3f, 0);
 
             if (endNote == null && GetNextNoteInRail != null)
             {
                 endNote = GetNextNoteInRail(noteInfo.railIdx, this);
-
             }
 
             if (endNote != null)
@@ -116,7 +126,6 @@ public class NoteInstance : MonoBehaviour
                 endNote.gameObject.GetComponent<NoteInstance>().enabled = false;
                 isConnecting = false;
             }
-
             yield return null;
         }
     }
@@ -129,7 +138,20 @@ public class NoteInstance : MonoBehaviour
         }
 
         NoteMaker.Instance.spawnedNotes_perRail[noteInfo.railIdx].Remove(this);
-        OnNoteDestroyed?.Invoke(this);
         Destroy(gameObject);
+    }
+
+    public void SetDisableVisual()
+    {
+        isEnabled = false;
+        var renderers = GetComponentsInChildren<MeshRenderer>();
+
+        foreach (var renderer in renderers)
+        {
+            if (renderer != null && disabledMat != null)
+            {
+                renderer.material = disabledMat;
+            }
+        }
     }
 }
