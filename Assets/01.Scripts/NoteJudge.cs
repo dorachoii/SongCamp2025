@@ -35,10 +35,10 @@ public class NoteJudge : MonoBehaviour
 
     public static event System.Action<NoteJudgedEventData> OnNoteJudged;
 
-    private readonly float badZone = 1.2f;
-    private readonly float goodZone = 1f;
-    private readonly float greatZone = 0.8f;
-    private readonly float excellentZone = 0.6f;
+    private readonly float badZone = 1.5f;
+    private readonly float goodZone = 1.2f;
+    private readonly float greatZone = 1f;
+    private readonly float excellentZone = 0.8f;
 
     private void Start()
     {

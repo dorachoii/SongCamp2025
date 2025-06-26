@@ -106,7 +106,6 @@ public class NoteInstance : MonoBehaviour
                 }
                 else
                 {
-                    //holding인 상태로 지나갔다면 excellent
                     NoteJudge.NotifyPassed(this);
                 }
             }
@@ -115,7 +114,6 @@ public class NoteInstance : MonoBehaviour
             {
                 if (!isHolding && !isJudged)
                 {
-                    print("isHolding아니고 isJudged아니라서 setDisableVisual");
                     SetDisableVisual();
                 }
             }

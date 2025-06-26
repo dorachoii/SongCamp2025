@@ -50,9 +50,9 @@ public class NoteMaker : MonoBehaviour
     {
         //TestSHORT();
         //TestDRAG();
-        TestLONG();
+        //TestLONG();
         //TestMIX();
-        //SampleSong.Instance.InputTestFLOP();
+        SampleSong.Instance.InputTestFLOP();
 
         foreach (var note in SampleSong.Instance.allGameNoteInfo)
         {
@@ -224,7 +224,7 @@ public class NoteMaker : MonoBehaviour
 
         note.railIdx = 3;
         note.type = (int)NoteType.DRAG_RIGHT;
-        note.time = 15 * bpm;
+        note.time = 17 * bpm;
         noteSpawnQueue.Add(note);
 
         for (int i = 0; i < noteSpawnQueue.Count; i++)
