@@ -48,11 +48,11 @@ public class NoteMaker : MonoBehaviour
 
     void Start()
     {
-        //TestSHORT();
+        TestSHORT();
         //TestDRAG();
         //TestLONG();
         //TestMIX();
-        SampleSong.Instance.InputTestFLOP();
+        //SampleSong.Instance.InputTestFLOP();
 
         foreach (var note in SampleSong.Instance.allGameNoteInfo)
         {

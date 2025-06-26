@@ -82,6 +82,7 @@ public class ScoreManager : MonoBehaviour
             combo = 0;
             if (comboDisplayCoroutine != null)
             {
+                
                 StopCoroutine(comboDisplayCoroutine);
                 comboText.text = "";
             }

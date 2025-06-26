@@ -8,6 +8,8 @@ public class TouchManager : MonoBehaviour
     public GameObject[] rails;
     public Material[] activeMats;
     public Material[] defaultMats;
+
+    public GameObject[] touchPads;
     private NoteJudge noteJudge;
 
     // 레일에 대응되는 키보드 키들
@@ -42,6 +44,16 @@ public class TouchManager : MonoBehaviour
 
     private bool rightDragReady = false;
     private bool leftDragReady = false;
+
+    void OnEnable()
+    {
+        NoteJudge.OnNoteJudged += HandleTouchEffect;
+    }
+
+    void OnDisable()
+    {
+        NoteJudge.OnNoteJudged -= HandleTouchEffect;
+    }
 
     void Start()
     {
@@ -203,4 +215,16 @@ public class TouchManager : MonoBehaviour
         if (!ready) L_ringBuffer.Clear();
     }
 
+    private void HandleTouchEffect(JudgeResult result, int railIdx, NoteType note)
+    {
+        if (result == JudgeResult.Miss) return;
+        touchPads[railIdx].SetActive(true);
+        StartCoroutine(DisableEffectAfterDelay(touchPads[railIdx], 0.3f));
+    }
+
+    private IEnumerator DisableEffectAfterDelay(GameObject effectObject, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        effectObject.SetActive(false);
+    }
 }
