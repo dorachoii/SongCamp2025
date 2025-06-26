@@ -33,7 +33,7 @@ public class CamShake : MonoBehaviour
         NoteJudge.OnNoteJudged -= HandleCamShake;
     }
 
-    void HandleCamShake(JudgeResult result, int railIndex)
+    void HandleCamShake(JudgeResult result, int railIndex, NoteType note)
     {
         if(result == JudgeResult.Miss)
         StartShake(shakeDuration, shakeAmount, dampingSpeed);

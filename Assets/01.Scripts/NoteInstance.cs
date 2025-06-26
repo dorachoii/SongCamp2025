@@ -125,7 +125,7 @@ public class NoteInstance : MonoBehaviour
     {
         if (isPassed)
         {
-            NoteJudge.NotifyMiss(noteInfo.railIdx);
+            NoteJudge.NotifyMiss(this);
         }
 
         NoteMaker.Instance.spawnedNotes_perRail[noteInfo.railIdx].Remove(this);

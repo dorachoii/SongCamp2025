@@ -17,7 +17,7 @@ public class NoteJudge : MonoBehaviour
     public GameObject[] touchPad;
     List<NoteInstance>[] spawnedNotes_perRail;
 
-    public static event System.Action<JudgeResult, int> OnNoteJudged;
+    public static event System.Action<JudgeResult, int, NoteType> OnNoteJudged;
     public static event System.Action<NoteInstance> OnNoteConfirmed;
 
     private readonly float badZone = 1.2f;
@@ -30,11 +30,10 @@ public class NoteJudge : MonoBehaviour
         spawnedNotes_perRail = NoteMaker.Instance.spawnedNotes_perRail;
     }
     // NoteJudge 클래스 내부에 추가
-    public static void NotifyMiss(int railIdx)
+    public static void NotifyMiss(NoteInstance note)
     {
-        OnNoteJudged?.Invoke(JudgeResult.Miss, railIdx);
+        OnNoteJudged?.Invoke(JudgeResult.Miss, note.noteInfo.railIdx, (NoteType)note.noteInfo.type);
     }
-
 
     public void JudgeReleasingTiming(int railIndex, int noteIndex = 0)
     {
@@ -53,7 +52,7 @@ public class NoteJudge : MonoBehaviour
         else if (distAbs <= badZone) result = JudgeResult.Bad;
         else return;
 
-        OnNoteJudged?.Invoke(result, railIndex);
+        OnNoteJudged?.Invoke(result, railIndex, (NoteType)note.noteInfo.type);
         OnNoteConfirmed?.Invoke(note);
     }
 
