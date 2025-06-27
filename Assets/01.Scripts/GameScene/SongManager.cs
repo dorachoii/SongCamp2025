@@ -37,9 +37,15 @@ public class SongManager : MonoBehaviour
         audioSource.Pause();
     }
 
+    public void StopSong()
+    {
+        audioSource.Stop();
+    }
+
     public void ResumeSong()
     {
         audioSource.UnPause();
     }
+
 
 }
