@@ -12,15 +12,16 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI numScore;
     public TextMeshProUGUI[] score4rails;
     public TextMeshProUGUI gradeText;
-    public TextMeshProUGUI comboText; // ✅ 추가
+    public TextMeshProUGUI comboText; 
 
     public Slider scoreSlider;
 
     private float score;
     private int combo;
     private int maxScore;
+    private int maxCombo;
 
-    private Coroutine comboDisplayCoroutine; // ✅ 추가
+    private Coroutine comboDisplayCoroutine; 
 
     private readonly Dictionary<JudgeResult, int> baseJudgeScores = new Dictionary<JudgeResult, int>
     {
@@ -82,7 +83,6 @@ public class ScoreManager : MonoBehaviour
             combo = 0;
             if (comboDisplayCoroutine != null)
             {
-                
                 StopCoroutine(comboDisplayCoroutine);
                 comboText.text = "";
             }
@@ -90,6 +90,8 @@ public class ScoreManager : MonoBehaviour
         else
         {
             combo++;
+            if (combo > maxCombo)
+                maxCombo = combo;
 
             if (combo % 5 == 0)
             {
@@ -146,6 +148,6 @@ public class ScoreManager : MonoBehaviour
     }
 
     public float GetScoreRatio() => score / maxScore;
-    public int GetCombo() => combo;
+    public int GetCombo() => maxCombo;
     public string GetGrade() => gradeText.text;
 }

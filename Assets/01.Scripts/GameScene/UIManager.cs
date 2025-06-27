@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     public Button pauseButton;
     public Button resumeButton;
     public Button backToLobbyButton;
+    public Button backToLobbyButton2;
     public Button cancelButton;
 
     void Awake()
@@ -49,6 +50,8 @@ public class UIManager : MonoBehaviour
             resumeButton.onClick.AddListener(() => GameManager.Instance.Resume());
         if (backToLobbyButton != null)
             backToLobbyButton.onClick.AddListener(() => GameManager.Instance.GoToLobby());
+        if (backToLobbyButton2 != null)
+            backToLobbyButton2.onClick.AddListener(() => GameManager.Instance.GoToLobby());
         if (cancelButton != null)
             cancelButton.onClick.AddListener(() => GameManager.Instance.Resume());
     }
@@ -91,6 +94,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowResultUI()
     {
+        print("ShowResultUI");
         resultPanel.SetActive(true);
 
         float scoreRatio = ScoreManager.instance.GetScoreRatio();

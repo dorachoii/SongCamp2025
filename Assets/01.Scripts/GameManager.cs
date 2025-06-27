@@ -60,8 +60,10 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
                 break;
             case GameState.Paused:
-            case GameState.End:
+            
                 Time.timeScale = 0;
+                break;
+            case GameState.End:
                 break;
         }
 

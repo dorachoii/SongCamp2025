@@ -181,10 +181,15 @@ public class NoteMaker : MonoBehaviour
     void InitializeNoteQueues()
     {
         ClearQueues();
-        TestSHORT();
-        //TestDRAG();
-        //TestLONG();
-        //TestMIX();
+        SampleSong.Instance.InputTestFLOP();
+
+        // SampleSong의 데이터를 NoteMaker의 큐로 복사
+        for (int i = 0; i < SampleSong.Instance.allGameNoteInfo.Count; i++)
+        {
+            var note = SampleSong.Instance.allGameNoteInfo[i];
+            noteSpawnQueue.Add(note);
+            noteSpawnQueue_perRail[note.railIdx].Add(note);
+        }
     }
 
     void TestLONG()

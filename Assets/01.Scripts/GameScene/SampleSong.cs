@@ -1288,10 +1288,10 @@ public class SampleSong : MonoBehaviour
         #endregion
 
 
-        for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
-        {
-            gameNoteInfo_Rails[i] = new List<NoteData>();
-        }
+        // for (int i = 0; i < gameNoteInfo_Rails.Length; i++)
+        // {
+        //     gameNoteInfo_Rails[i] = new List<NoteData>();
+        // }
 
         for (int i = 0; i < allGameNoteInfo.Count; i++)
         {

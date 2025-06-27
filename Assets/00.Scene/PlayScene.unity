@@ -12527,6 +12527,7 @@ MonoBehaviour:
   pauseButton: {fileID: 938622123}
   resumeButton: {fileID: 110600701}
   backToLobbyButton: {fileID: 2034101693}
+  backToLobbyButton2: {fileID: 1494707380}
   cancelButton: {fileID: 1920455834}
 --- !u!114 &1854800107
 MonoBehaviour:
