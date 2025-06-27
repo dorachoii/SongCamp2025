@@ -18,6 +18,7 @@ public struct NoteData
     public float time;
     public bool isLongNoteStart;
     public byte pitch;
+    public bool isLastNote;
 
     public NoteData(int railIdx, int type, float time)
     {
@@ -26,6 +27,7 @@ public struct NoteData
         this.time = time;
         this.isLongNoteStart = false;
         this.pitch = 0;
+        this.isLastNote = false;
     }
 }
 
@@ -171,8 +173,9 @@ public class NoteInstance : MonoBehaviour
         {
             NoteJudge.NotifyMiss(this);
         }
+        if (noteInfo.isLastNote) GameManager.Instance.SetGameState(GameState.End);
 
-        NoteMaker.Instance.spawnedNotes_perRail[noteInfo.railIdx].Remove(this);
+        NoteMaker.Instance.RemoveNote(this);
         Destroy(gameObject);
     }
 

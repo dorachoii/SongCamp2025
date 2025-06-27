@@ -20,22 +20,14 @@ public class NoteMaker : MonoBehaviour
     public List<NoteData>[] noteSpawnQueue_perRail = new List<NoteData>[railCount];
     public List<NoteInstance>[] spawnedNotes_perRail = new List<NoteInstance>[railCount];
 
-    public CountdownController countdownController;  // 인스펙터에서 연결
-    private bool isPlaying = false;  // ✅
+    CountdownController countdownController;
 
     void Awake()
     {
         if (Instance == null) { Instance = this; }
         else { Destroy(gameObject); }
 
-        for (int i = 0; i < spawnedNotes_perRail.Length; i++)
-        {
-            spawnedNotes_perRail[i] = new List<NoteInstance>();
-        }
-        for (int i = 0; i < noteSpawnQueue_perRail.Length; i++)
-        {
-            noteSpawnQueue_perRail[i] = new List<NoteData>();
-        }
+        ClearQueues();
 
         // longNote위해서
         NoteInstance.GetNextNoteInRail = (railIdx, currentNote) =>
@@ -48,73 +40,126 @@ public class NoteMaker : MonoBehaviour
         };
     }
 
+    void OnEnable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+        }
+    }
+
     void Start()
     {
-        countdownController.OnCountdownComplete += () =>
-        {
-            isPlaying = true;
-            currTime = 0f; // ⏱️ 카운트다운 이후부터 시간 측정
-        };
+        countdownController = CountdownController.Instance;
+        InitializeNoteQueues();
+    }
 
-        countdownController.StartCountdown();
 
-        //TestSHORT();
-        //TestDRAG();
-        //TestLONG();
-        //TestMIX();
-        SampleSong.Instance.InputTestFLOP();
 
-        foreach (var note in SampleSong.Instance.allGameNoteInfo)
-        {
-            noteSpawnQueue.Add(note);
-            noteSpawnQueue_perRail[note.railIdx].Add(note);
-        }
+    void HandleGameStateChanged(GameState state)
+    {
+        currTime = 0f;
+
+        ClearQueues();
+        InitializeNoteQueues();
     }
 
 
     void Update()
     {
-        if (!isPlaying) return;
-        
+        if (GameManager.Instance.CurrentState != GameState.Playing) return;
+
         currTime += Time.deltaTime;
 
         for (int i = 0; i < noteSpawnQueue_perRail.Length; i++)
         {
-            if (noteSpawnQueue_perRail[i].Count > 0)
-            {
-                if (currTime >= noteSpawnQueue_perRail[i][0].time / bpm)
-                {
-                    GameObject prefab = notePrefabs[noteSpawnQueue_perRail[i][0].type];
-                    GameObject note = Instantiate(prefab, spawnRails[i].position + Vector3.forward * (-0.5f), prefab.transform.rotation);
-
-                    note.transform.SetParent(spawnRails[i].transform);
-
-                    NoteInstance noteInstance = note.GetComponent<NoteInstance>();
-                    noteInstantiate(i, noteInstance);
-                }
-            }
+            SpawnNoteAtRail(i);
         }
     }
 
-    void noteInstantiate(int n, NoteInstance noteInstance)
+    void SpawnNoteAtRail(int railIndex)
     {
-        noteInstance.noteInfo = noteSpawnQueue_perRail[n][0];
-        spawnedNotes_perRail[n].Add(noteInstance);
+        var queue = noteSpawnQueue_perRail[railIndex];
+
+        if (queue.Count == 0) return;
+
+        float spawnTime = queue[0].time / bpm;
+
+        if (currTime >= spawnTime)
+        {
+            GameObject prefab = notePrefabs[queue[0].type];
+            GameObject note = Instantiate(
+                prefab,
+                spawnRails[railIndex].position + Vector3.forward * (-0.5f),
+                prefab.transform.rotation
+            );
+
+            note.transform.SetParent(spawnRails[railIndex]);
+
+            NoteInstance noteInstance = note.GetComponent<NoteInstance>();
+            MakeNote(railIndex, noteInstance);
+        }
+    }
+
+    void MakeNote(int n, NoteInstance note)
+    {
+        note.noteInfo = noteSpawnQueue_perRail[n][0];
+        spawnedNotes_perRail[n].Add(note);
         noteSpawnQueue_perRail[n].RemoveAt(0);
     }
+
+    public void RemoveNote(NoteInstance note)
+    {
+        int rail = note.noteInfo.railIdx;
+        if (spawnedNotes_perRail[rail].Contains(note))
+        {
+            spawnedNotes_perRail[rail].Remove(note);
+        }
+    }
+
+    void ClearQueues()
+    {
+        for (int i = 0; i < spawnedNotes_perRail.Length; i++)
+        {
+            spawnedNotes_perRail[i] = new List<NoteInstance>();
+        }
+        for (int i = 0; i < noteSpawnQueue_perRail.Length; i++)
+        {
+            noteSpawnQueue_perRail[i] = new List<NoteData>();
+        }
+    }
+
+    void InitializeNoteQueues()
+    {
+        ClearQueues();
+        TestSHORT();
+        //TestDRAG();
+        //TestLONG();
+        //TestMIX();
+        //SampleSong.Instance.InputTestFLOP();
+    }
+
 
     void TestLONG()
     {
         NoteData note = new NoteData();
         note.railIdx = 3;
         note.type = (int)NoteType.LONG;
-        note.time = 1 * bpm;
+        note.time = 3 * bpm;
         note.isLongNoteStart = true;
         noteSpawnQueue.Add(note);
 
         note.railIdx = 3;
         note.type = (int)NoteType.LONG;
-        note.time = 3 * bpm;
+        note.time = 5 * bpm;
         note.isLongNoteStart = false;
         noteSpawnQueue.Add(note);
 
@@ -183,7 +228,7 @@ public class NoteMaker : MonoBehaviour
             noteSpawnQueue_perRail[noteSpawnQueue[i].railIdx].Add(noteSpawnQueue[i]);
         }
     }
-    
+
     void TestMIX()
     {
         NoteData note = new NoteData();

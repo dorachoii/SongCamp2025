@@ -7,14 +7,19 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+
+    public CountdownController countdownController;
+
+    public GameObject scoreCanvas;
+    public GameObject tutorialCanvas;
+
     public GameObject resultPanel;
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI finalComboText;
     public TextMeshProUGUI finalGradeText;
 
-    public CountdownController countdownController;
+    public GameObject pausePanel;
 
-    public Canvas showTutorial;
 
     void Awake()
     {
@@ -24,11 +29,43 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        countdownController.OnCountdownComplete += () =>
-        {
-            CloseTutorial();
-        };
+        GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
     }
+
+    void HandleGameStateChanged(GameState state)
+    {
+        if (state == GameState.Ready)
+        {
+            ShowTutorialUI(true);
+        }
+
+        if (state == GameState.Playing)
+        {
+            ShowTutorialUI(false);
+            ShowPauseUI(false);
+        }
+
+
+        if (state == GameState.End)
+            StartCoroutine(ShowResultAfterDelay(2f));
+
+        if (state == GameState.Paused)
+        {
+            ShowPauseUI(true);
+        }
+        
+    }
+
+    public void ShowPauseUI(bool isOn)
+    {
+        pausePanel.SetActive(isOn);
+    }
+
+    IEnumerator ShowResultAfterDelay(float delay)
+{
+    yield return new WaitForSeconds(delay);
+    ShowResultUI();
+}
 
     public void ShowResultUI()
     {
@@ -43,8 +80,11 @@ public class UIManager : MonoBehaviour
         finalGradeText.text = $"Grade: {grade}";
     }
 
-    public void CloseTutorial()
+    public void ShowTutorialUI(bool isOn)
     {
-        showTutorial.gameObject.SetActive(false);
+        tutorialCanvas.gameObject.SetActive(isOn);
+        scoreCanvas.gameObject.SetActive(!isOn);
     }
+
+
 }

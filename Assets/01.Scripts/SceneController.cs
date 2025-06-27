@@ -27,38 +27,4 @@ public class SceneController : MonoBehaviour
         }
     }
 
-
-    public void ReloadCurrentScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    private bool isPaused = false;
-
-    public void PauseGame()
-    {
-        if (isPaused) return;
-        Time.timeScale = 0f;
-        isPaused = true;
-    }
-
-    public void ResumeGame()
-    {
-        if (!isPaused) return;
-        Time.timeScale = 1f;
-        isPaused = false;
-    }
-
-    public void TogglePause()
-    {
-        if (isPaused) ResumeGame();
-        else PauseGame();
-    }
-
-    public void QuitToLobby()
-    {
-        Time.timeScale = 1f;
-        isPaused = false;
-        LoadSceneByIndex(0);
-    }
 }

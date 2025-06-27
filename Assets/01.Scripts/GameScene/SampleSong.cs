@@ -1283,6 +1283,7 @@ public class SampleSong : MonoBehaviour
         info.type = (int)NoteType.SHORT;
         info.time = 3833.5f;
         info.isLongNoteStart = false;
+        info.isLastNote = true;
         allGameNoteInfo.Add(info);
 
         #endregion

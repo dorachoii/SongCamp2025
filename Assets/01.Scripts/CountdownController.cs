@@ -5,8 +5,33 @@ using TMPro;
 
 public class CountdownController : MonoBehaviour
 {
+    public static CountdownController Instance { get; private set; }
     public TMP_Text countdownText;
-    public event Action OnCountdownComplete;
+
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
+    void OnEnable()
+    {
+        GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+    }
+
+    void OnDisable()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+    }
+
+    void HandleGameStateChanged(GameState state)
+    {
+        if (state == GameState.Ready)
+        {
+            StartCountdown();
+        }
+    }
 
     public void StartCountdown()
     {
@@ -23,9 +48,7 @@ public class CountdownController : MonoBehaviour
 
         countdownText.text = "START!";
         yield return new WaitForSeconds(1f);
-
-        countdownText.gameObject.SetActive(false);
-        OnCountdownComplete?.Invoke();  // ✅ 이벤트 발생
+        GameManager.Instance.SetGameState(GameState.Playing);
     }
 }
 

@@ -1,49 +1,74 @@
 using UnityEngine;
+using System;
+using UnityEngine.SceneManagement;
 
+public enum GameState
+{
+    Ready,
+    Playing,
+    Paused,
+    End
+}
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager Instance { get; private set; }
 
+    public GameState CurrentState { get; private set; }
 
-    private bool isGameOver = false;
+    public event Action<GameState> OnGameStateChanged;
 
-    void OnEnable()
-    {
-        //NoteMaker.OnAllNotesSpawned += EndGame;
-    }
-
-    void OnDisable()
-    {
-        //NoteMaker.OnAllNotesSpawned -= EndGame;
-    }
-
-    private void Awake()
+    void Awake()
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
-    private void Update()
+    public void SetGameState(GameState newState)
     {
-        if (!isGameOver && CheckGameEnd())
+        print($"현재 게임 상태: {newState}");
+        CurrentState = newState;
+
+        switch (newState)
         {
-            //EndGame();
+            case GameState.Ready:
+            case GameState.Playing:
+                Time.timeScale = 1; 
+                break;
+            case GameState.Paused:
+            case GameState.End:
+                Time.timeScale = 0;
+                break;
         }
+
+        OnGameStateChanged?.Invoke(newState);
     }
 
-    private bool CheckGameEnd()
+
+    public void Pause()
     {
-        // 예: 모든 노트가 사라졌는지 확인
-        foreach (var list in NoteMaker.Instance.spawnedNotes_perRail)
-        {
-            if (list.Count > 0) return false;
-        }
-        return true;
+        SongManager.Instance.PauseSong();
+        SetGameState(GameState.Paused);
+        Time.timeScale = 0;
     }
 
-    private void EndGame()
+    public void Resume()
     {
-        isGameOver = true;
-        UIManager.Instance.ShowResultUI();
+        SongManager.Instance.ResumeSong();
+        Time.timeScale = 1;
+        SetGameState(GameState.Playing);
+
+    }
+
+    public void Retry()
+    {
+        Time.timeScale = 1;
+        SetGameState(GameState.Ready);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void BackToLobby()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("LobbyScene");
     }
 }

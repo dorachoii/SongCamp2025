@@ -29,7 +29,17 @@ public class SongManager : MonoBehaviour
         {
             isStarted = true;
             audioSource.Play();
-            Debug.Log("🎵 노래 시작!");
         }
     }
+
+    public void PauseSong()
+    {
+        audioSource.Pause();
+    }
+
+    public void ResumeSong()
+    {
+        audioSource.UnPause();
+    }
+
 }

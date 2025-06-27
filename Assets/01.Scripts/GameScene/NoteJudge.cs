@@ -85,6 +85,7 @@ public class NoteJudge : MonoBehaviour
             }
             return;
         }
+
         var data = new NoteJudgedEventData(result, railIndex, (NoteType)note.noteInfo.type, note);
         OnNoteJudged?.Invoke(data);
         
