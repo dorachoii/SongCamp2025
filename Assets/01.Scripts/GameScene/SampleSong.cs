@@ -15,7 +15,6 @@ public class SampleSong : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject);
         }
 
         // 레일별 리스트 초기화
