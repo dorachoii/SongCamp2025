@@ -36,6 +36,8 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        ShowTutorialUI(true);
+        
         GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
 
         // === 버튼 이벤트 할당 ===
@@ -77,6 +79,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowPauseUI(bool isOn)
     {
+        if (pausePanel == null) return;
         pausePanel.SetActive(isOn);
     }
 
@@ -101,6 +104,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowTutorialUI(bool isOn)
     {
+        if (tutorialCanvas == null || scoreCanvas == null) return;
         tutorialCanvas.gameObject.SetActive(isOn);
         scoreCanvas.gameObject.SetActive(!isOn);
     }

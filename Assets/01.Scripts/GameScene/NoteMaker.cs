@@ -131,7 +131,6 @@ public class NoteMaker : MonoBehaviour
             note.transform.SetParent(spawnRails[railIndex]);
             NoteInstance noteInstance = note.GetComponent<NoteInstance>();
             MakeNote(railIndex, noteInstance);
-            print($"순서6 : 노트 생성 {railIndex} {noteInstance.noteInfo.time}");
         }
     }
 

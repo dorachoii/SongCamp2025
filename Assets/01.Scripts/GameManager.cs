@@ -32,6 +32,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
     void Start()
     {
         if (SceneManager.GetActiveScene().name == "Bootstrap")
@@ -79,7 +87,9 @@ public class GameManager : MonoBehaviour
     public void Retry()
     {
         Time.timeScale = 1;
+        //SetGameState(GameState.Ready);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
     }
 
     public void GoToLobby()

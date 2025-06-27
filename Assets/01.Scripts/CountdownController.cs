@@ -10,14 +10,13 @@ public class CountdownController : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+       Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if(Instance == this)
+        Instance = null;
     }
 
     void OnEnable()
@@ -55,6 +54,7 @@ public class CountdownController : MonoBehaviour
 
     public void StartCountdown()
     {
+        if (this == null) return; // 혹시 Destroy된 경우 방지
         print("순서5 : 카운트다운 시작");
         StartCoroutine(CountdownRoutine());
     }
