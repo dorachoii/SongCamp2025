@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Melanchall.DryWetMidi.Interaction;
-using Unity.VisualScripting;
 using UnityEngine;
 
 // 생성과 파괴 담당
@@ -27,8 +24,8 @@ public class NoteMaker : MonoBehaviour
     {
         if (Instance == null)
         {
+            print("순서3 : NoteMaker 생성");
             Instance = this;
-            Debug.Log("순서0: NoteMaker 생성됨 (Awake)");
         }
         else
         {
@@ -47,7 +44,6 @@ public class NoteMaker : MonoBehaviour
 
     void OnEnable()
     {
-        Debug.Log("순서1: NoteMaker OnEnable");
         if (GameManager.Instance != null)
         {
             GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
@@ -64,19 +60,16 @@ public class NoteMaker : MonoBehaviour
 
     public void Restart()
     {
-        Debug.Log("순서10: NoteMaker.Restart() 실행");
         currTime = 0f;
         ClearQueues();
         ReassignRails();
         // 노트 큐는 초기화하되, 실제 생성은 Playing 상태에서만
         InitializeNoteQueues();
         isInitialized = true;
-        Debug.Log("순서11: NoteMaker 초기화 완료");
     }
 
     void Start()
     {
-        Debug.Log("순서2: NoteMaker.Start()");
         ClearQueues();
         ReassignRails();
 
@@ -87,16 +80,14 @@ public class NoteMaker : MonoBehaviour
 
         countdownController = CountdownController.Instance;
         InitializeNoteQueues();
+        print($"순서4 : NoteMaker 초기화 완료 {noteSpawnQueue.Count} /{spawnedNotes_perRail[0].Count}");
         isInitialized = true;
     }
 
     void HandleGameStateChanged(GameState state)
     {
-        Debug.Log($"순서3: 상태 변경 감지됨 - {state}");
-
         if (state == GameState.Playing && !isInitialized)
         {
-            Debug.Log("순서4: 게임 시작 - 초기화 실행");
             Restart();
         }
     }
@@ -128,7 +119,6 @@ public class NoteMaker : MonoBehaviour
             GameObject prefab = notePrefabs[queue[0].type];
             if (spawnRails[railIndex] == null)
             {
-                Debug.LogWarning($"spawnRails[{railIndex}] is null!");
                 return;
             }
 
@@ -141,6 +131,7 @@ public class NoteMaker : MonoBehaviour
             note.transform.SetParent(spawnRails[railIndex]);
             NoteInstance noteInstance = note.GetComponent<NoteInstance>();
             MakeNote(railIndex, noteInstance);
+            print($"순서6 : 노트 생성 {railIndex} {noteInstance.noteInfo.time}");
         }
     }
 
@@ -154,10 +145,6 @@ public class NoteMaker : MonoBehaviour
             if (railObj != null)
             {
                 spawnRails.Add(railObj.transform);
-            }
-            else
-            {
-                Debug.LogWarning($"noteFactory0{i} not found!");
             }
         }
     }
@@ -180,7 +167,8 @@ public class NoteMaker : MonoBehaviour
 
     void ClearQueues()
     {
-        noteSpawnQueue.Clear();
+        noteSpawnQueue = new List<NoteData>();
+
         for (int i = 0; i < spawnedNotes_perRail.Length; i++)
         {
             spawnedNotes_perRail[i] = new List<NoteInstance>();
@@ -198,7 +186,6 @@ public class NoteMaker : MonoBehaviour
         //TestDRAG();
         //TestLONG();
         //TestMIX();
-        Debug.Log($"순서12: spawnQueue에 노트 {noteSpawnQueue.Count}개 등록됨");
     }
 
     void TestLONG()

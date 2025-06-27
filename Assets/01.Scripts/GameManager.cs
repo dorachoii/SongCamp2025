@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("순서0: GameManager 생성 (Awake)");
+            DontDestroyOnLoad(gameObject);
+            print("순서1 : GameManager 생성");
         }
         else
         {
@@ -31,32 +32,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (SceneManager.GetActiveScene().name == "Bootstrap")
+        {
+            GoToLobby();
+        }
+    }
+
     public void SetGameState(GameState newState)
     {
-        Debug.Log($"순서1: SetGameState 호출 → {newState}");
         CurrentState = newState;
+        print($"순서2 : SetGameState 호출 : {newState}");
 
         switch (newState)
         {
             case GameState.Ready:
             case GameState.Playing:
                 Time.timeScale = 1;
-                Debug.Log("순서2: Time.timeScale = 1");
                 break;
             case GameState.Paused:
             case GameState.End:
                 Time.timeScale = 0;
-                Debug.Log("순서2: Time.timeScale = 0");
                 break;
         }
 
         OnGameStateChanged?.Invoke(newState);
-        Debug.Log("순서3: OnGameStateChanged 이벤트 호출");
     }
 
     public void Pause()
     {
-        Debug.Log("순서4: 게임 일시정지 (Pause)");
+        UIManager.Instance.ShowPauseUI(true);
         SongManager.Instance.PauseSong();
         SetGameState(GameState.Paused);
         Time.timeScale = 0;
@@ -64,7 +70,7 @@ public class GameManager : MonoBehaviour
 
     public void Resume()
     {
-        Debug.Log("순서5: 게임 재개 (Resume)");
+        UIManager.Instance.ShowPauseUI(false);
         SongManager.Instance.ResumeSong();
         Time.timeScale = 1;
         SetGameState(GameState.Playing);
@@ -72,15 +78,20 @@ public class GameManager : MonoBehaviour
 
     public void Retry()
     {
-        Debug.Log("순서6: Retry 호출 - 씬 리로드");
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void BackToLobby()
+    public void GoToLobby()
     {
-        Debug.Log("순서8: 로비로 이동");
         Time.timeScale = 1;
         SceneManager.LoadScene("LobbyScene");
     }
+
+    public void GoToGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("PlayScene");
+    }
+
 }

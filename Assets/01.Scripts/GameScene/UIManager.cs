@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class UIManager : MonoBehaviour
 
     public GameObject pausePanel;
 
+    // === 버튼 필드 추가 ===
+    public Button retryButton;
+    public Button pauseButton;
+    public Button resumeButton;
+    public Button backToLobbyButton;
+    public Button cancelButton;
 
     void Awake()
     {
@@ -30,6 +37,18 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         GameManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+
+        // === 버튼 이벤트 할당 ===
+        if (retryButton != null)
+            retryButton.onClick.AddListener(() => GameManager.Instance.Retry());
+        if (pauseButton != null)
+            pauseButton.onClick.AddListener(() => GameManager.Instance.Pause());
+        if (resumeButton != null)
+            resumeButton.onClick.AddListener(() => GameManager.Instance.Resume());
+        if (backToLobbyButton != null)
+            backToLobbyButton.onClick.AddListener(() => GameManager.Instance.GoToLobby());
+        if (cancelButton != null)
+            cancelButton.onClick.AddListener(() => GameManager.Instance.Resume());
     }
 
     void HandleGameStateChanged(GameState state)

@@ -881,7 +881,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1854800106}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
@@ -6024,7 +6024,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1854800106}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Pause
         m_Mode: 1
@@ -10454,7 +10454,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1854800106}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: BackToLobby
         m_Mode: 1
@@ -11001,13 +11001,6 @@ MonoBehaviour:
   - {fileID: 1738437629145288571, guid: 0ab42540ed1cf1345969f1e37a1bef96, type: 3}
   - {fileID: 5119678665360020807, guid: cff4bdd6e403baa47a898b55cd0c0401, type: 3}
   - {fileID: 1433315881158573589, guid: 804271bd9ec2c2842ae4ce3c60e8ad27, type: 3}
-  spawnRails:
-  - {fileID: 2140195094}
-  - {fileID: 492973348}
-  - {fileID: 52916350}
-  - {fileID: 29680193}
-  - {fileID: 1339689894}
-  - {fileID: 725758886}
   noteSpawnQueue: []
 --- !u!114 &1560883484
 MonoBehaviour:
@@ -12487,7 +12480,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1854800104}
   - component: {fileID: 1854800105}
-  - component: {fileID: 1854800106}
   - component: {fileID: 1854800107}
   m_Layer: 0
   m_Name: UIManager
@@ -12531,18 +12523,11 @@ MonoBehaviour:
   finalComboText: {fileID: 354682910}
   finalGradeText: {fileID: 1375371709}
   pausePanel: {fileID: 1021720975}
---- !u!114 &1854800106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1854800103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e71bd2b300ab02e44baf26c3378897a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  retryButton: {fileID: 1957203569}
+  pauseButton: {fileID: 938622123}
+  resumeButton: {fileID: 110600701}
+  backToLobbyButton: {fileID: 2034101693}
+  cancelButton: {fileID: 1920455834}
 --- !u!114 &1854800107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12850,7 +12835,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1854800106}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
@@ -13148,7 +13133,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1854800106}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: Retry
         m_Mode: 1
@@ -13950,7 +13935,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1854800106}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: BackToLobby
         m_Mode: 1
