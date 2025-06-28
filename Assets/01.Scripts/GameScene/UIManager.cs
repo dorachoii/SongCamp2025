@@ -31,8 +31,14 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null) 
+        {
+            Instance = this;
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -58,6 +64,9 @@ public class UIManager : MonoBehaviour
 
     void HandleGameStateChanged(GameState state)
     {
+        // Check if UIManager is still valid before proceeding
+        if (this == null || !gameObject.activeInHierarchy) return;
+
         if (state == GameState.Ready)
         {
             ShowTutorialUI(true);
@@ -69,15 +78,18 @@ public class UIManager : MonoBehaviour
             ShowPauseUI(false);
         }
 
-
         if (state == GameState.End)
-            StartCoroutine(ShowResultAfterDelay(2f));
+        {
+            if (this != null && gameObject.activeInHierarchy)
+            {
+                StartCoroutine(ShowResultAfterDelay(2f));
+            }
+        }
 
         if (state == GameState.Paused)
         {
             ShowPauseUI(true);
         }
-        
     }
 
     public void ShowPauseUI(bool isOn)
@@ -87,10 +99,10 @@ public class UIManager : MonoBehaviour
     }
 
     IEnumerator ShowResultAfterDelay(float delay)
-{
-    yield return new WaitForSeconds(delay);
-    ShowResultUI();
-}
+    {
+        yield return new WaitForSeconds(delay);
+        ShowResultUI();
+    }
 
     public void ShowResultUI()
     {
@@ -113,5 +125,12 @@ public class UIManager : MonoBehaviour
         scoreCanvas.gameObject.SetActive(!isOn);
     }
 
-
+    void OnDestroy()
+    {
+        // Unsubscribe from events when destroyed
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+        }
+    }
 }
