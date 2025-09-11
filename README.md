@@ -2,6 +2,9 @@
 - **Platform**: Web  
 - **Duration**: 3ヶ月、チーム制作（リズムゲームパート担当）
 
+### 🎥 Gameplay Video
+- **[📹 プレイ動画](https://www.youtube.com/watch?v=avcJFLEoey4)**
+
 ### 📸 Screenshots
 <img width="795" height="424" alt="Screenshot 2025-08-25 at 9 45 34 AM" src="https://github.com/user-attachments/assets/ab09d510-74b1-4e5a-8222-7b37be476142" />
 
